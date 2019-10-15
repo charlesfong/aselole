@@ -98,7 +98,11 @@ export default class Profile extends Component {
 
 
   onPressOptions = () => {
-    this.props.navigation.navigate('options')
+    this.props.navigation.navigate('options');
+  }
+  
+  gotoHistory = (status) => {
+    this.props.navigation.navigate('History', {status: status});
   }
 
   onChangePushNotifications = () => {
@@ -108,15 +112,17 @@ export default class Profile extends Component {
     console.warn(this.state.pushNotifications);
   }
 
+  ComingSoon = () => {
+    console.warn("Coming Soon");
+  }
   render() {
     // const {name} = this.state.profileData
     
     return (
       
       <ScrollView style={styles.scroll}>
-
-       <LinearGradient colors={["#79e3fe","#635df8","#42385D"]}  style={{flex: 1}}>
-    <StatusBar translucent={true} backgroundColor={'transparent'} />
+          <LinearGradient colors={["#79e3fe","#635df8","#42385D"]}  style={{flex: 1}}>
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
   </LinearGradient >
 
       <ListItem
@@ -127,6 +133,7 @@ export default class Profile extends Component {
             }}
             title="Akun"
             linearGradientProps={{
+              colors: ['#048c4c', '#ffffff'],
               colors: ['#048c4c', '#82bf26'],
               useAngle: true,
             }}
@@ -139,22 +146,7 @@ export default class Profile extends Component {
               letterSpacing: 0.2,
               marginLeft: 5,
             }}
-          rightIcon={
-            <TouchableOpacity onPress={this.onPress}>
-              <BaseIcon
-                containerStyle={{
-                  backgroundColor: 'transparent',
-                  marginRight: 1,
-                  marginBottom: -10,
-                }}
-                icon={{
-                  type: 'material',
-                  name: 'settings',
-                  color: 'white',
-                  size: 28,
-                }} />
-            </TouchableOpacity>
-          }
+          
         />
 
       <ListItem
@@ -236,7 +228,7 @@ export default class Profile extends Component {
               </TouchableOpacity>
             }
             rightIcon={(
-              <TouchableOpacity onPress={this.onPress}>
+              <TouchableOpacity onPress={this.ComingSoon()}>
               <BaseIcon
                 containerStyle={{
                   backgroundColor: '#transparent',
@@ -244,9 +236,9 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  name: 'ios-settings',
                   color: 'white',
-                  size: 40,
+                  size: 30,
                 }}
               />
               </TouchableOpacity>
@@ -271,7 +263,12 @@ export default class Profile extends Component {
             }}
             subtitle={
               <View style={{flexDirection: "row", }}>
-                <TouchableOpacity onPress={this.onPress} style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
+                <TouchableOpacity 
+                onPress={() => {
+                  this.gotoHistory(0);
+                  // this.ComingSoon();
+                }}
+                style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
                   <View>
                     <BaseIcon
                       containerStyle={{
@@ -299,7 +296,12 @@ export default class Profile extends Component {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this.onPress} style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
+                <TouchableOpacity 
+                onPress={() => {
+                  // this.gotoHistory(1);
+                  this.ComingSoon();
+                }}
+                style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
                   <View>
                     <BaseIcon
                       containerStyle={{
@@ -327,7 +329,12 @@ export default class Profile extends Component {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this.onPress} style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
+                <TouchableOpacity 
+                onPress={() => {
+                  // this.gotoHistory(2);
+                  this.ComingSoon();
+                }}
+                style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
                   <View>
                     <BaseIcon
                       containerStyle={{
@@ -355,7 +362,12 @@ export default class Profile extends Component {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this.onPress} style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
+                <TouchableOpacity 
+                onPress={() => {
+                  // this.gotoHistory(3);
+                  this.ComingSoon();
+                }}
+                style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
                   <View>
                     <BaseIcon
                       containerStyle={{
@@ -401,7 +413,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Lihat kartu visual keanggotaan WAKimart."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -422,9 +434,15 @@ export default class Profile extends Component {
                   backgroundColor: '#transparent',
                   marginRight: 1,
                 }}
+                // icon={{
+                //   type: 'ionicon',
+                //   name: 'ios-arrow-forward',
+                //   color: '#505B6F',
+                //   size: 35,
+                // }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -438,7 +456,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Lihat semua voucher spesial yang Anda miliki."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -461,7 +479,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  // name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -475,7 +494,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Cek kembali produk yang terakhir dilihat."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -498,7 +517,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  // name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -512,7 +532,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Atur detail data dan informasi akun Anda."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -535,7 +555,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  // name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -549,7 +570,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Lihat solusi terbaik atau hubungi kami."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -572,7 +593,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  // name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -586,7 +608,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Atur dan ubah pengaturan aplikasi."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -609,7 +631,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  // name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -623,7 +646,7 @@ export default class Profile extends Component {
             titleStyle={styles.titleStyle}
             subtitle="Mengetahui lebih dalam tentang WAKimart."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.onPressOptions()}
+            onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -646,7 +669,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-arrow-forward',
+                  // name: 'ios-arrow-forward',
+                  name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}

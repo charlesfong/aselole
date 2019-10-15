@@ -3,9 +3,14 @@ import { Text, Image, View,
     Platform,
     Dimensions,
     AsyncStorage,
+    StatusBar,
+    TouchableOpacity,
     } from 'react-native';
-import { Left, Right, Button, Icon, Toast, Text as NBText } from 'native-base';
+import { Left, Right, Button, Toast, Text as NBText, Icon } from 'native-base';
 import Slideshow from 'react-native-image-slider-show';
+import { SearchBar, Icon as Icon_e} from 'react-native-elements';
+import IconBadge from 'react-native-icon-badge';
+import Search from 'react-native-search-box';
 import Card from './komponen/Card';
 import CardSection from './komponen/CardSection';
 import Navbar from './komponen/NavBar';
@@ -110,21 +115,82 @@ export default class ProductDetailScreen extends React.Component {
     this.props.navigation.navigate('Cart');
   }
 
+
+  renderSearchBar = () => {
+    return (
+      <View style={{ flexDirection: "row", backgroundColor: "#090", elevation: 5, }}>
+        <View style={{ width: '15%',flex:1 }}>
+          <Button transparent onPress={() => this.props.navigation.goBack()} >
+            <Icon name="ios-arrow-back" size={38} style={{fontSize: 38, color:"#fff"}} />
+          </Button>
+        </View>
+        <View style={{ width: '70%', }}>
+          
+          <SearchBar
+            onChangeText={this.updateSearch}
+            searchIcon={{ size: 24 }}
+            inputStyle={{
+              color: 'black',
+              fontSize: 14,
+              fontWeight: 'bold',
+            }}
+            inputContainerStyle={{
+              backgroundColor: "white",
+              borderRadius: 20,
+              height: 30,
+            }}
+            containerStyle={{
+              backgroundColor: "transparent",
+              paddingTop: 10,
+              paddingBottom: 10,
+              marginLeft:-10,
+              // paddingLeft: 15,
+              borderTopWidth: 0,
+              borderBottomWidth: 0,
+            }}
+            placeholderTextColor={"#168457"}
+            placeholder={"WAKimart"}
+            value={Search}
+          />
+        </View>
+
+        <TouchableOpacity onPress={() => this.goToCart()}>
+          <View style={{ flexDirection: 'row', marginRight: 15,}}>
+            <IconBadge
+              MainElement={
+                <View style={{ marginLeft: 20, marginTop: 10, }}>
+                  <Icon_e
+                    name='cart-outline'
+                    type='material-community'
+                    color='white'
+                    size={30}
+                  />
+                </View>
+              }
+              BadgeElement={
+                <Text style={{ color: '#FFFFFF', fontSize: 10, }}>31
+                {/* {this.state.BadgeCount} */}
+                </Text>
+              }
+              IconBadgeStyle={
+                {
+                  
+                  width: 17,
+                  height: 17,
+                  backgroundColor: '#ff6969',
+                  left: 5,
+                  top: 20,
+                }
+              }
+            // Hidden={this.state.BadgeCount == 0}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   render() {
-    const left = (
-      <Left style={{ flex: 1 }}>
-        <Button onPress={() => this.props.navigation.goBack()} transparent>
-          <Icon name='ios-arrow-back' />
-        </Button>
-      </Left>
-    );
-    const right = (
-      <Right style={{ flex: 1 }}>
-        <Button onPress={() => this.goToCart()} transparent>
-          <Icon name='ios-cart' />
-        </Button>
-      </Right>
-    );
     const { navigation } = this.props;
     const data_ne = navigation.getParam('data_ne');
     const img= data_ne.image.substring(2, data_ne.image.length-2);
@@ -134,7 +200,11 @@ export default class ProductDetailScreen extends React.Component {
     
     return (
       <View>
-        <Navbar left={left} right={right} />
+        <MyStatusBar backgroundColor="#090" barStyle="light-content" />
+        <View>
+          {this.renderSearchBar()}
+        </View>
+        
         <Card> 
           <Slideshow 
             dataSource={[
@@ -201,7 +271,25 @@ export default class ProductDetailScreen extends React.Component {
   }
 }
 
+const MyStatusBar = ({backgroundColor, ...props}) => (
+  <View style={[styles.statusBar, { backgroundColor }]}>
+    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  </View>
+);
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 40 : StatusBar.currentHeight;
+
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 50 : 60;
+
+
 const styles = {
+    statusBar: {
+      height: STATUSBAR_HEIGHT,
+    }, 
+    title: {
+      // fontFamily: 'Roboto',
+      fontWeight: '100'
+    },
     thumbnailStyle: {
         height: 100,
         width: 100
@@ -222,6 +310,15 @@ const styles = {
       tabsContainer: {
         alignSelf: 'stretch',
         marginTop: 30,
+      },
+      IconBadge: {
+        position:'absolute',
+        top:1,
+        right:1,
+        minWidth:20,
+        height:20,
+        borderRadius:15,
+        backgroundColor: 'yellow'
       },
       itemOneContainer: {
         flex: 1,

@@ -7,6 +7,10 @@ import HomeScreen from '../home/HomeView';
 import LoginScreen from '../auth/LoginView';
 import CheckLogin from '../auth/CheckLogin';
 import ProfileScreen from '../profile/ProfileView';
+import CheckOutScreen from '../checkout/CheckoutView';
+import CartScreen from '../product/Cart';
+import PaymentScreen from '../checkout/PaymentView';
+import HistoryScreen from '../history/HistoryView';
 
 const iconHome = require('../../assets/images/tabbar/home.png');
 const iconPromo = require('../../assets/images//tabbar/promo.png');
@@ -17,6 +21,11 @@ const iconAccount = require('../../assets/images//tabbar/account.png');
 const HomeTab = createStackNavigator(
     {
       Home: HomeScreen ,
+      Login: LoginScreen,
+      Checkout: CheckOutScreen,
+      Cart : CartScreen,
+      Payment: PaymentScreen,
+      // Profile: ProfileScreen,
     },
     {
       // initialRouteName:'HomeScreen',
@@ -30,6 +39,7 @@ const HomeTab = createStackNavigator(
       CheckLogin: CheckLogin ,
       Login: LoginScreen,
       Profile: ProfileScreen,
+      History: HistoryScreen,
     },
     {
       initialRouteName:'CheckLogin',

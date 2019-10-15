@@ -38,6 +38,9 @@ target 'test002' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'test002Tests' do
     inherit! :search_paths
     # Pods for testing

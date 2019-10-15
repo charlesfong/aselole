@@ -8,7 +8,9 @@ import {
     ScrollView,
     Text,
     StatusBar,
+    
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import { Avatar, SearchBar, Icon } from 'react-native-elements';
 import Slideshow from 'react-native-image-slider-show';
@@ -30,7 +32,7 @@ static navigationOptions = ({navigation}) => {
         />
         ),
     }
-    }
+}
 
 state = { frontEndCms: [], products: [], categories: [] };
 
@@ -53,7 +55,11 @@ _openDetailProducts = (isi_data) => {
     });
 };
 
-goToCart() {
+goToCart = () => {
+  // return (
+  //   <WebView source={{ uri: 'https://facebook.github.io/react-native/' }} style={styles.website} />
+  // );
+  
     this.props.navigation.navigate('Cart');
 }
 
@@ -99,9 +105,11 @@ renderBestSeller = () => {
               </Text>
               <Text style={styles.BestSellerTextPrice}>
                 Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})}
+                {/* Rp. {(item.product_prices.member).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
+                {/* Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})} */}
               </Text>
               <Text style={styles.BestSellerTextSold} >
-                0 Terjual
+                {/* 0 Terjual */}
               </Text>
             </View>
           </View>
@@ -115,13 +123,37 @@ renderBestSeller = () => {
     }
   };
 
+  renderRow = (item, sectionId, index) => {
+    return (
+      <TouchableHightLight
+        style={{
+          height: rowHeight,
+          justifyContent: 'center',
+          alignItems: 'center'}}
+      >
+        <Text>{item.name}</Text>
+      </TouchableHightLight>
+    );
+  }
+
+  updateSearch = (searchText) => {
+    axios.get('http://localhost:8080/wakimart/public/api/fetchNewProduct', {
+      params: {
+        keyword: searchText,
+      }
+    }).then(
+      response => console.log(response)   
+    );
+  }
   renderSearchBar = () => {
       
     return (
       <View style={{ flexDirection: "row", backgroundColor: "#090", elevation: 5, }}>
         <View style={{ width: '85%', }}>
           <SearchBar
-            onChangeText={this.updateSearch}
+            onChangeText={(text) => {
+                  // this.updateSearch(text);
+            }}
             searchIcon={{ size: 24 }}
             inputStyle={{
               color: 'black',
@@ -132,6 +164,12 @@ renderBestSeller = () => {
               backgroundColor: "white",
               borderRadius: 20,
               height: 30,
+            }}
+            onSubmitEditing={() => {
+              console.log("ke halaman yang di search haruse mek e blom buat");
+            }}
+            onSearch={(text) => {
+              this.updateSearch(text);
             }}
             containerStyle={{
               backgroundColor: "transparent",
@@ -162,7 +200,7 @@ renderBestSeller = () => {
               }
               BadgeElement={
                 <Text style={{ color: '#FFFFFF', fontSize: 10, }}>33
-                {/* {this.state.BadgeCount} */}
+                {this.state.BadgeCount}
                 </Text>
               }
               IconBadgeStyle={
@@ -174,7 +212,6 @@ renderBestSeller = () => {
                   top: 20,
                 }
               }
-            // Hidden={this.state.BadgeCount == 0}
             />
           </View>
         </TouchableOpacity>
@@ -219,13 +256,19 @@ const MyStatusBar = ({backgroundColor, ...props}) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
-  );
+);
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 25 : StatusBar.currentHeight;
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 const styles = StyleSheet.create({
+        website: {
+          marginTop: 20,
+          maxHeight: 200,
+          width: 320,
+          flex: 1
+        },
     statusBar: {
         height: STATUSBAR_HEIGHT,
         },

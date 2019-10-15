@@ -1,10 +1,13 @@
-// React native and others libraries imports
 import React, { Component } from 'react';
-import { Text, Alert, AsyncStorage,View,FlatList, TouchableOpacity, image } from 'react-native';
+import { Text, Alert, AsyncStorage,View,FlatList, TouchableOpacity, image, StatusBar } from 'react-native';
 import { Container, Content, Header, Icon, Button, Left, Right, Body, Title, List, ListItem, Thumbnail, Grid, Col } from 'native-base';
 import Navbar from './komponen/NavBar';
 import axios from 'axios';
 import Colors from './Colors';
+import BaseIcon from '../profile/Icon';
+import { CheckBox } from 'react-native-elements';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { WebView } from 'react-native-webview';
 
 export default class Cart extends Component {
   constructor(props) {
@@ -17,10 +20,6 @@ export default class Cart extends Component {
         TotalBelanja: 0,
       };
   }
-
-  // shouldComponentUpdate() {
-  //   return this.state.hasFetched;
-  // }
 
   goToCheckout() {
     this.props.navigation.navigate('Checkout');
@@ -53,32 +52,6 @@ export default class Cart extends Component {
     });
   }
 
-  // componentWillUnmount() {
-  //   let lengthOfArray = this.state.cartItems.length-1;
-  //   AsyncStorage.getItem("CART", (err, res) => {
-  //     if (!res) this.setState({cartItems: []});
-  //     else 
-  //     {
-  //       this.setState({cartItems: JSON.parse(res)});
-  //       var url = "https://wakimart.co.id/api/fetchCartProduct/";
-  //       for(var i in this.state.cartItems){
-  //         url += this.state.cartItems[i]['product_id'];
-  //         if(lengthOfArray != i){
-  //           url += "-";
-  //         }
-  //       }
-  //       url=url.substring(0, url.length-1)
-  //       console.log(url);
-  //       axios.get(url).then(
-  //           response => this.setState({ productsCart: (response.data.data) }, () => {
-  //             // this.state.productsCart = this.state.productsCart.filter(function() { return true; });
-  //             // console.log(this.state.productsCart.filter());
-  //           })
-  //       );
-  //     }
-  //   });
-  // }
-
   checkqty = (qty) => {
     console.log(qty);
   }
@@ -106,43 +79,102 @@ export default class Cart extends Component {
       const cellViews = arr3.map(item => 
         (
         <TouchableOpacity key={item.id}>
-          <Thumbnail source={{ uri: `https://wakimart.com/id/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} square style={{width: 110, height: 90}} />
-          <Body style={{paddingLeft: 10}}>
-            <Text style={{fontSize: 18}}>
-              {/* {item.quantity > 1 ? item.quantity+"x " : null} */}
-              {/* {data_ne_2.name} */}
-              {/* {this.stop()} */}
-              
-              {item.name}
-            </Text>
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginBottom: 10}}>
-            Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})}
-            {/* Rp. {(item.product_prices.member.substring(0, item.product_prices.member.length-3)).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,')} */}
-            </Text>
-            {/* <Text style={{fontSize: 14 ,fontStyle: 'italic'}}>Color: {item.color}</Text> */}
-            {/* <Text style={{fontSize: 14 ,fontStyle: 'italic'}}>Size: {item.size}</Text> */}
-            {/* <Button icon onPress={() => this.setState({ quantity: this.state.quantity > 1 ? this.state.quantity - 1 : 1 })} >
+        <View style={{
+          width: '95%',
+          height: 140,
+          alignSelf: 'center',
+          flexDirection: "row", 
+          marginBottom: 10,
+          borderRadius: 10,
+          backgroundColor: '#efefef',
+          marginTop:10,
+          elevation: 5,
+          shadowOpacity: 0.2,
+          }}>
+          <View style={{width: '10%', justifyContent: 'center',}}>
+              <CheckBox
+                color= "#24cf8c"
+                containerStyle={{ 
+                  margin: 0, 
+                  padding: 0,}}
+                checked={this.state.checked}
+              />
+          </View>
+          <View style={{width: '30%',  justifyContent: 'center',}}>
+              <Thumbnail
+                source={{
+                  uri: `https://wakimart.com/id/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length - 2)}`
+                }} square
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 15,
+                  backgroundColor: 'red',
+                }} />
+          </View>
+          <View style={{width: '45%', alignSelf: 'center',}}>
+              <Text style={{ fontSize: 14 }}>
+                {item.name}
+              </Text>
+              <Text style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 10 }}>
+                Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})}
+              </Text>
+              {/* <Text style={{fontSize: 14 ,fontStyle: 'italic'}}>Color: {item.color}</Text> */}
+              {/* <Text style={{fontSize: 14 ,fontStyle: 'italic'}}>Size: {item.size}</Text> */}
+              {/* <Button icon onPress={() => this.setState({ quantity: this.state.quantity > 1 ? this.state.quantity - 1 : 1 })} >
               <Icon name='ios-remove' style={{ color: Colors.navbarBackgroundColor }} />
             </Button> */}
-            <Button icon onPress={() => {item.quantity > 1 ? item.quantity -- : 1}} >
-              <Icon name='ios-remove' style={{ color: Colors.navbarBackgroundColor }} />
-            </Button>
-            <View style={{ flex: 4, justifyContent: 'center', alignItems: 'center', paddingLeft: 30, paddingRight: 30 }}>
-              <Text style={{ fontSize: 18 }}>{item.quantity}</Text>
+            <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', width: '30%' }}>
+                  <Button icon onPress={() => { item.squantity > 1 ? item.quantity-- : 1 }} >
+                    <Icon name='ios-remove' style={{ color: Colors.navbarBackgroundColor }} />
+                  </Button>
+                </View>
+                <View style={{flexDirection: 'row', width: '40%' }}>
+                  <View style={{ flex: 4, justifyContent: 'center', alignItems: 'center', }}>
+                    <Text style={{ fontSize: 14 }}>{item.quantity}</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection: 'row', width: '30%' }}>
+                  <Button icon onPress={() => { item.quantity++ }}>
+                    <Icon style={{ color: Colors.navbarBackgroundColor }} name='add' />
+                  </Button>
+                </View>
             </View>
-            <Button icon onPress={() => {item.quantity ++}}>
-              <Icon style={{ color: Colors.navbarBackgroundColor }} name='ios-add' />
-            </Button>
-          </Body>
-          <Right>
-            <Button style={{marginLeft: -25}} transparent onPress={() => this.removeItemPressed(item)}>
-              <Icon size={30} style={{fontSize: 30, color: '#95a5a6'}} name='ios-remove-circle-outline' />
-            </Button>
-          </Right>
-        </TouchableOpacity>
+          </View>
+          <View style={{width: '15%', alignSelf: 'center', justifyContent: 'center',}}>
+                <Button transparent onPress={() => this.removeItemPressed(item)}>
+                  <BaseIcon
+                    containerStyle={{
+                      backgroundColor: '#ff6969',
+                      borderRadius: 5,
+                      width: 28,
+                      height: 28,
+                      marginLeft: 0,
+                      marginRight: 0,
+                    }}
+                    icon={{
+                      type: 'material',
+                      name: 'delete-forever',
+                      color: 'white',
+                      size: 20,
+                    }} />
+                </Button>
+                <Text style={{
+                  fontSize: 10,
+                  color: '#ff6969',
+                  fontWeight: 'bold',}}>
+                  Hapus
+                </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
       ));
       return (
-        <View>
+        <View 
+          // style={{elevation: 5,
+          // shadowOpacity: 0.2,}}
+          >
           {cellViews}
         </View>
       );
@@ -150,17 +182,18 @@ export default class Cart extends Component {
   }
 
   render() { 
-    
     const left = (
       <Left style={{flex:1}}>
         <Button transparent onPress={() => this.props.navigation.goBack()}>
-          <Icon name="ios-arrow-back" size={38} style={{fontSize: 38}} />
+          <Icon name="ios-arrow-back" size={38} style={{fontSize: 38, marginTop:-35, color:"#090"}} />
         </Button>
       </Left>
     );
     return(
-      <Container style={{backgroundColor: '#fdfdfd'}}>
-        <Navbar left={left} title="MY CART" />
+      <Container>
+        {/* <WebView /> */}
+        <MyStatusBar backgroundColor="#090" barStyle="light-content" />
+        <Navbar left={left} title="Cart" />
         {this.state.cartItems.length <=0 ? (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Icon name="ios-cart" size={38} style={{fontSize: 38, color: '#95a5a6', marginBottom: 7}} />
@@ -215,7 +248,7 @@ export default class Cart extends Component {
         items.push(item);
         // console.log(JSON.stringify(item)+" items : "+JSON.stringify(items));
       });
-    console.log(items);
+    // console.log(items);
     this.setState({cartItems: []});
     AsyncStorage.setItem("CART",JSON.stringify(items));
     this.setState({cartItems: items});
@@ -276,8 +309,20 @@ export default class Cart extends Component {
   }
 
 }
+const MyStatusBar = ({backgroundColor, ...props}) => (
+  <View style={[styles.statusBar, { backgroundColor }]}>
+    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  </View>
+);
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 40 : StatusBar.currentHeight;
+
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 50 : 60;
 
 const styles={
+  statusBar: {
+    height: STATUSBAR_HEIGHT,
+  }, 
   title: {
     // fontFamily: 'Roboto',
     fontWeight: '100'

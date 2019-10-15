@@ -8,6 +8,8 @@ export default class CheckLogin extends Component {
     _checkLogin = () => {
         AsyncStorage.getItem('user', (error, result) => {
             if (result) {
+                var a = JSON.parse(result);
+                // console.log(a["id"]);
                 this.props.navigation.replace('Profile');
             }
             else

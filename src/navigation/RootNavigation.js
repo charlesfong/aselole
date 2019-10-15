@@ -5,9 +5,11 @@ import MainTabNavigator from './MainTabNavigator';
 import ProductDetailScreen from '../product/ProductDetails';
 import CartScreen from '../product/Cart';
 import CheckOutView from '../checkout/CheckoutView';
+import PaymentView from '../checkout/PaymentView';
 // import DynamicTabNavigator from './DynamicTabNavigator';
 // import ProductTabNavigator from './ProductTabNavigator';
-// import LoginScreen from '../auth/LoginScreen';
+import LoginScreen from '../auth/LoginView';
+import CheckLogin from '../auth/CheckLogin';
 // import CheckLogin from '../auth/CheckLogin';
 // import HomeScreen from '../home/HomeView';
 // import ProfileScreen from '../profile/Profile';
@@ -37,12 +39,24 @@ const stackNavigator = createStackNavigator(
             header: null,
         },
     },
-    Checkout: {
-        screen: CheckOutView,
-        navigationOptions: {
-            header: null,
-        },
-    },
+    // Checkout: {
+    //     screen: CheckOutView,
+    //     navigationOptions: {
+    //         header: null,
+    //     },
+    // },
+    // Payment: {
+    //   screen: PaymentView,
+    //   navigationOptions: {
+    //       header: null,
+    //   },
+    // },
+    // Login: {
+    //   screen: LoginScreen,
+    //   navigationOptions: {
+    //       header: null,
+    //   },
+    // },
     // Home: {
     //   screen: HomeScreen,
     //   navigationOptions: {
