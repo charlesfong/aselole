@@ -5,12 +5,15 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import HomeScreen from '../home/HomeView';
 import LoginScreen from '../auth/LoginView';
+import RegistrationScreen from '../auth/RegistrationView';
 import CheckLogin from '../auth/CheckLogin';
 import ProfileScreen from '../profile/ProfileView';
 import CheckOutScreen from '../checkout/CheckoutView';
 import CartScreen from '../product/Cart';
 import PaymentScreen from '../checkout/PaymentView';
 import HistoryScreen from '../history/HistoryView';
+import CategoryScreen from '../category/CategoryView';
+
 
 const iconHome = require('../../assets/images/tabbar/home.png');
 const iconPromo = require('../../assets/images//tabbar/promo.png');
@@ -25,6 +28,7 @@ const HomeTab = createStackNavigator(
       Checkout: CheckOutScreen,
       Cart : CartScreen,
       Payment: PaymentScreen,
+      Category: CategoryScreen,
       // Profile: ProfileScreen,
     },
     {
@@ -40,11 +44,12 @@ const HomeTab = createStackNavigator(
       Login: LoginScreen,
       Profile: ProfileScreen,
       History: HistoryScreen,
+      Registration: RegistrationScreen,
     },
     {
       initialRouteName:'CheckLogin',
       defaultNavigationOptions: {
-        header: null,
+        // header: null,
       },
     }
   );

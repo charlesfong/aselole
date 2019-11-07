@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Header, Body, Title, Left, Right, Icon } from 'native-base';
+import {Dimensions} from 'react-native';
 
 export default class NavBar extends Component {
   render() {
@@ -14,7 +15,7 @@ export default class NavBar extends Component {
         >
         {this.props.left ? this.props.left : < Left style={styles.left} />}
         <Body style={styles.body}>
-          <Title style={styles.title}>{this.props.title}</Title>
+          <Title style={styles.textLogo}>{this.props.title}</Title>
         </Body>
         {this.props.right ? this.props.right : <Right style={{flex: 1}} />}
       </Header>
@@ -30,6 +31,17 @@ const styles={
     // alignItems: 'center',
     // color:'#0f0'
   },
+  textLogo: {
+    // color: 'white',
+    fontWeight: 'bold',
+    color: 'black',
+    height:Dimensions.get('window').height/10,
+    width:Dimensions.get('window').width/1.5,
+    // backgroundColor: 'transparent',
+    // marginTop: 20,
+    fontSize:Dimensions.get('window').width/12,
+    textAlign:'center'
+    },
   title: {
     // fontFamily: 'Roboto',
     fontWeight: '100',

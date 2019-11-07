@@ -7,6 +7,7 @@ import BaseIcon from './Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import { StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native';
+import Moment from 'moment';
 // import { getStatusBarHeight } from 'react-native-status-bar-height';
  
 // 44 - on iPhoneX
@@ -80,14 +81,27 @@ export default class Profile extends Component {
   state = {
     pushNotifications: true,
     profileData: [],
+    country:"",
   }
 
   componentDidMount() {
     AsyncStorage.getItem('user', (error, result) => {
       if (result) {
-          this.setState({ profileData: JSON.parse(result)})
+          this.setState({ profileData: JSON.parse(result)}, () => {
+              // console.warn(result);
+          });
       }
     });
+    AsyncStorage.getItem('country_selected', (error, result) => {
+      if (result) {
+          var a = JSON.parse(result);
+          this.setState({ country: a }, () => {
+            // console.warn(this.state.country);
+          });
+          // console.warn(a);
+      }
+    });
+    // console.warn(this.state.country);
   }
 
   logout = () => {
@@ -117,7 +131,7 @@ export default class Profile extends Component {
   }
   render() {
     // const {name} = this.state.profileData
-    
+    Moment.locale('en');
     return (
       
       <ScrollView style={styles.scroll}>
@@ -131,7 +145,9 @@ export default class Profile extends Component {
               paddingTop:20,
               marginBottom:-20,
             }}
-            title="Akun"
+            title={this.state.country=="id" ?
+              "Akun" : 
+              "Account"}
             linearGradientProps={{
               colors: ['#048c4c', '#ffffff'],
               colors: ['#048c4c', '#82bf26'],
@@ -199,9 +215,9 @@ export default class Profile extends Component {
                       color: 'white',
                       fontSize: 11,
                       marginBottom: 5,
-                    }}>{this.state.profileData.code} Verified Member
+                    }}>{this.state.profileData.code}
                 </Text>
-                  <BaseIcon
+                  {/* <BaseIcon
                     containerStyle={{
                       backgroundColor: '#transparent',
                       margin: -10,
@@ -213,7 +229,7 @@ export default class Profile extends Component {
                       color: 'white',
                       size: 15,
                     }}
-                  />
+                  /> */}
                 </View>
                 <View style={{flexDirection: "column", }}>
                   <Text
@@ -221,31 +237,33 @@ export default class Profile extends Component {
                       color: 'white',
                       fontSize: 10,
                       marginBottom: 5,
-                    }}>Bergabung sejak Juli 2019
+                    }}>
+                      {this.state.country=="id" ? "Bergabung sejak " : "Joined since "}
+                      {Moment(this.state.profileData.created_at).format('d MMM YYYY')}
                   </Text>
                 </View>
               </View>
               </TouchableOpacity>
             }
-            rightIcon={(
-              <TouchableOpacity onPress={this.ComingSoon()}>
-              <BaseIcon
-                containerStyle={{
-                  backgroundColor: '#transparent',
-                  marginRight: 15,
-                }}
-                icon={{
-                  type: 'ionicon',
-                  name: 'ios-settings',
-                  color: 'white',
-                  size: 30,
-                }}
-              />
-              </TouchableOpacity>
-            )}
+            // rightIcon={(
+            //   <TouchableOpacity onPress={this.ComingSoon()}>
+            //   <BaseIcon
+            //     containerStyle={{
+            //       backgroundColor: '#transparent',
+            //       marginRight: 15,
+            //     }}
+            //     icon={{
+            //       type: 'ionicon',
+            //       name: 'ios-settings',
+            //       color: 'white',
+            //       size: 30,
+            //     }}
+            //   />
+            //   </TouchableOpacity>
+            // )}
           />
 
-        <ListItem
+        {/* <ListItem
           containerStyle={{ 
             height: 140,
             borderBottomWidth: 7,
@@ -265,8 +283,8 @@ export default class Profile extends Component {
               <View style={{flexDirection: "row", }}>
                 <TouchableOpacity 
                 onPress={() => {
-                  this.gotoHistory(0);
-                  // this.ComingSoon();
+                  // this.gotoHistory(0);
+                  this.ComingSoon();
                 }}
                 style={{ flexDirection: "column", width: '25%', alignItems: 'center', }}>
                   <View>
@@ -396,7 +414,7 @@ export default class Profile extends Component {
                 </TouchableOpacity>
               </View>
             }
-          />   
+          />    */}
 
         <View>
           <Text
@@ -406,12 +424,14 @@ export default class Profile extends Component {
               marginTop: 15,
               fontSize: 18,
               fontWeight: 'bold',
-            }}>Akun Saya
+            }}>{this.state.country=="id" ? "Akun Saya " : "My Account "}
           </Text>
           <ListItem
-            title="Kartu Virtual Member"
+            // title="Kartu Virtual Member"
+            title={this.state.country=="id" ? "Kartu Virtual Member " : "Virtual Member Card "}
             titleStyle={styles.titleStyle}
-            subtitle="Lihat kartu visual keanggotaan WAKimart."
+            subtitle={this.state.country=="id" ? "Lihat kartu visual keanggotaan WAKimart. " : "Open Virtual Member Card. "}
+            // subtitle="Lihat kartu visual keanggotaan WAKimart."
             subtitleStyle={styles.subtitleStyle}
             onPress={() => this.ComingSoon()}
             containerStyle={styles.listItemContainer}
@@ -451,7 +471,7 @@ export default class Profile extends Component {
           />
 
 
-          <ListItem
+          {/* <ListItem
             title="Voucher Saya"
             titleStyle={styles.titleStyle}
             subtitle="Lihat semua voucher spesial yang Anda miliki."
@@ -486,10 +506,10 @@ export default class Profile extends Component {
                 }}
               />
             )}
-          />
+          /> */}
 
 
-          <ListItem
+          {/* <ListItem
             title="Terakhir Dilihat"
             titleStyle={styles.titleStyle}
             subtitle="Cek kembali produk yang terakhir dilihat."
@@ -524,10 +544,10 @@ export default class Profile extends Component {
                 }}
               />
             )}
-          />
+          /> */}
 
 
-          <ListItem
+          {/* <ListItem
             title="Informasi Akun"
             titleStyle={styles.titleStyle}
             subtitle="Atur detail data dan informasi akun Anda."
@@ -562,10 +582,49 @@ export default class Profile extends Component {
                 }}
               />
             )}
+          /> */}
+
+          <ListItem
+            // title="Pindah Negara"
+            title={this.state.country=="id" ? "Pindah Negara " : "Change Country "}
+            titleStyle={styles.titleStyle}
+            // subtitle="Pindah server ke negara lain."
+            subtitle={this.state.country=="id" ? "Pindah server ke negara lain. " : "Change to another region. "}
+            subtitleStyle={styles.subtitleStyle}
+            onPress={() => this.props.navigation.navigate('CountryView')}
+            containerStyle={styles.listItemContainer}
+            leftIcon={(
+              <BaseIcon
+                containerStyle={{
+                  backgroundColor: '#transparent',
+                  marginLeft: 15,
+                }}
+                icon={{
+                  type: 'material',
+                  name: 'person-outline',
+                  color: '#505B6F',
+                }}
+              />
+            )}
+            rightIcon={(
+              <BaseIcon
+                containerStyle={{
+                  backgroundColor: '#transparent',
+                  marginRight: 1,
+                }}
+                icon={{
+                  type: 'ionicon',
+                  name: 'ios-arrow-forward',
+                  // name: 'ios-lock',
+                  color: '#505B6F',
+                  size: 35,
+                }}
+              />
+            )}
           />
 
 
-          <ListItem
+          {/* <ListItem
             title="Pusat Bantuan"
             titleStyle={styles.titleStyle}
             subtitle="Lihat solusi terbaik atau hubungi kami."
@@ -600,10 +659,10 @@ export default class Profile extends Component {
                 }}
               />
             )}
-          />
+          /> */}
 
 
-          <ListItem
+          {/* <ListItem
             title="Pengaturan"
             titleStyle={styles.titleStyle}
             subtitle="Atur dan ubah pengaturan aplikasi."
@@ -638,15 +697,17 @@ export default class Profile extends Component {
                 }}
               />
             )}
-          />
+          /> */}
           
 
           <ListItem
-            title="Tentang Kami"
+            // title="Tentang Kami"
+            title={this.state.country=="id" ? "Tentang Kami " : "About Us "}
             titleStyle={styles.titleStyle}
-            subtitle="Mengetahui lebih dalam tentang WAKimart."
+            // subtitle="Mengetahui lebih dalam tentang WAKimart."
+            subtitle={this.state.country=="id" ? "Mengetahui lebih dalam tentang WAKimart. " : "Know more about WAKimart "}
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.ComingSoon()}
+            onPress={() => this.props.navigation.navigate('ChatView')}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -680,7 +741,8 @@ export default class Profile extends Component {
           
 
           <ListItem
-            title="Keluar"
+            // title="Keluar"
+            title={this.state.country=="id" ? "Keluar " : "Logout"}
             titleStyle={styles.titleStyle}
             onPress={() => this.logout()}
             containerStyle={styles.listItemContainer}

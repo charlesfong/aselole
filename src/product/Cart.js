@@ -7,7 +7,6 @@ import Colors from './Colors';
 import BaseIcon from '../profile/Icon';
 import { CheckBox } from 'react-native-elements';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { WebView } from 'react-native-webview';
 
 export default class Cart extends Component {
   constructor(props) {
@@ -191,7 +190,6 @@ export default class Cart extends Component {
     );
     return(
       <Container>
-        {/* <WebView /> */}
         <MyStatusBar backgroundColor="#090" barStyle="light-content" />
         <Navbar left={left} title="Cart" />
         {this.state.cartItems.length <=0 ? (

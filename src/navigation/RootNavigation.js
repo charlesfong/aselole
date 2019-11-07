@@ -6,7 +6,9 @@ import ProductDetailScreen from '../product/ProductDetails';
 import CartScreen from '../product/Cart';
 import CheckOutView from '../checkout/CheckoutView';
 import PaymentView from '../checkout/PaymentView';
-// import DynamicTabNavigator from './DynamicTabNavigator';
+import OpeningView from '../animation/OpeningView';
+import CountryView from '../country/CountryView';
+import ChatView from '../chat/ChatView';
 // import ProductTabNavigator from './ProductTabNavigator';
 import LoginScreen from '../auth/LoginView';
 import CheckLogin from '../auth/CheckLogin';
@@ -21,12 +23,27 @@ import CheckLogin from '../auth/CheckLogin';
 
 const stackNavigator = createStackNavigator(
   {
-    Main: {
-      screen: MainTabNavigator,
+    
+    OpeningView: {
+      screen: OpeningView,
       navigationOptions: {
-        header: null,
-      },
+          header: null,
     },
+  },
+    CountryView: {
+      screen: CountryView,
+      navigationOptions: {
+        headerLeft: null
+          // header: null,
+    },
+  },
+  Main: {
+    screen: MainTabNavigator,
+    navigationOptions: {
+      header: null,
+    },
+  },
+    
     ProductDetail: {
         screen: ProductDetailScreen,
         navigationOptions: {
@@ -39,6 +56,18 @@ const stackNavigator = createStackNavigator(
             header: null,
         },
     },
+    ChatView: {
+        screen: ChatView,
+        navigationOptions: {
+            header: null,
+        },
+    },
+  //   OpeningView: {
+  //     screen: OpeningView,
+  //     navigationOptions: {
+  //         header: null,
+  //   },
+  // },
     // Checkout: {
     //     screen: CheckOutView,
     //     navigationOptions: {

@@ -9,6 +9,7 @@ import {StyleSheet, View, Text, Image,
     TextInput,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 import { Toast } from 'native-base';
 import axios from 'axios';
 import bgSrc from '../../assets/images/wallpaper.png';
@@ -18,7 +19,7 @@ import passwordImg from '../../assets/images/password.png';
 import eyeImg from '../../assets/images/eye_black.png';
 
 const MARGIN = 40;
-
+var name_country="";
 export default class LoginScreen extends Component {
 
     constructor() {
@@ -29,7 +30,8 @@ export default class LoginScreen extends Component {
           showPass: true,
           press: false,
           username: "",
-          password: ""
+          password: "",
+          country: "",
         };
         // this.showPass = this.showPass.bind(this);
         this.buttonAnimated = new Animated.Value(0);
@@ -48,6 +50,10 @@ export default class LoginScreen extends Component {
         // });
       }
     
+    static navigationOptions = {
+        header: null
+    };
+
     componentWillMount() {
         // AsyncStorage.removeItem('user');
         // AsyncStorage.getItem('user', (error, result) => {
@@ -61,6 +67,21 @@ export default class LoginScreen extends Component {
         //         console.warn("kosong");
         //     }
         // });
+        AsyncStorage.getItem('country_selected', (error, result) => {
+          if (result) {
+              var a = JSON.parse(result);
+              if (a=="id")
+              {
+                name_country="Indonesia";
+                this.setState({country: "Indonesia"});
+              }
+              else if (a=="my")
+              {
+                name_country="Malaysia";
+                this.setState({country: "Malaysia"});
+              }
+          }
+      });
     }  
       
 
@@ -83,6 +104,10 @@ export default class LoginScreen extends Component {
         }).start();
     }
     
+    goToRegis = () => {
+      this.props.navigation.replace('Registration');
+    }
+
     _onPress = () => {
         
         if (this.state.isLoading) return;
@@ -150,12 +175,14 @@ export default class LoginScreen extends Component {
         outputRange: [Dimensions.get('window').width - MARGIN, MARGIN],
       });
     return (
-      <ImageBackground style={styles.picture} source={bgSrc}>
+      <ImageBackground style={styles.picture} >
+      
         <View style={styles.containerLogo}>
           {/* <Image source={logoImg} style={styles.imageLogo} /> */}
-          <Text style={styles.textLogo}>Welcome to WAKimart Indonesia</Text>
+          <Text style={styles.textLogo}>Welcome to WAKimart {this.state.country}</Text>
         </View>
-        <KeyboardAvoidingView behavior="padding" style={styles.containerForm}>
+        <View  style={styles.containerForm}>
+        {/* <KeyboardAvoidingView behavior="padding" style={styles.containerForm}> */}
           <View style={styles.inputWrapperUserInput}>
             <Image source={usernameImg} style={styles.inlineImgUserInput} />
             <TextInput
@@ -190,9 +217,13 @@ export default class LoginScreen extends Component {
           >
             <Image source={eyeImg} style={styles.iconEyeForm} />
           </TouchableOpacity>
-        </KeyboardAvoidingView>
+        </View>
+        {/* </KeyboardAvoidingView> */}
         <View style={styles.containerSign}>
-          <Text style={styles.textSign}>Create Account</Text>
+          <TouchableOpacity>
+            <Text style={styles.textSign}>Create Account</Text>
+          </TouchableOpacity>
+          
           <Text style={styles.textSign}>Forgot Password?</Text>
         </View>
         <View style={styles.containerButtonSubmit}>
@@ -205,30 +236,52 @@ export default class LoginScreen extends Component {
               {this.state.isLoading ? (
                 <Image source={spinner} style={styles.imageButtonSubmit} />
                 ) : (
-                  <Text style={styles.textButtonSubmit}>LOGIN</Text>
+                    <LinearGradient
+                        colors={['#82bf26', '#048c4c']}
+                        style={styles.buttonG}
+                        start={{x: 0, y: 0}}
+                        end={{x: 1, y: 0}}
+                    >
+                    <Text style={styles.buttonText}>
+                        L O G I N
+                    </Text>
+                    </LinearGradient>
                 )}
-                
             </TouchableOpacity>
             <Animated.View
-              style={[styles.circleButtonSubmit,]}
+              // style={[styles.circleButtonSubmit,]}
             />
           </Animated.View>
-          
-          
-          
+          <TouchableOpacity
+              style={styles.buttonButtonSubmit}
+              onPress={() => this.goToRegis()}
+              // activeOpacity={1}
+          >
+          <LinearGradient
+              colors={['#82bf26', '#048c4c']}
+              style={styles.buttonG}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+          >
+          <Text style={styles.buttonText}>
+              R E G I S T E R
+          </Text>
+          </LinearGradient>
+          </TouchableOpacity>
         </View>
-        {/* <View style={styles.containerButtonCancel}>
-          <Button block success style={styles.buttonButtonCancel} onPress={this._goHome}>
-            <Text style={styles.textButtonSubmit}>CANCEL</Text>
-          </Button>
-        </View> */}
-        
+      
       </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
+    buttonG:{
+      height: 50,
+      width: Dimensions.get('window').width /1.2,
+      borderRadius: 100,
+      marginBottom:10,
+    },
     picture: {
       flex: 1,
       width: null,
@@ -270,8 +323,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     },
     imageButtonSubmit: {
-    width: 24,
-    height: 24,
+    // width: 24,
+    // height: 24,
     },
     containerButtonSubmit: {
         flex: 1,
@@ -296,7 +349,7 @@ const styles = StyleSheet.create({
     height: 80,
     },
     textLogo: {
-    color: 'white',
+    // color: 'white',
     fontWeight: 'bold',
     backgroundColor: 'transparent',
     marginTop: 20,
@@ -331,10 +384,20 @@ const styles = StyleSheet.create({
       buttonButtonSubmit: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F035E0',
+        // backgroundColor: '#F035E0',
         height: MARGIN,
         borderRadius: 20,
         zIndex: 100,
+        marginBottom:25,
+      },
+      buttonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        // fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 15,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
       },
       buttonButtonCancel: {
         top: 10,
@@ -358,14 +421,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#F035E0',
       },
       inputUserInput: {
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        // backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
         width: Dimensions.get('window').width - 40,
         height: 40,
         // marginTop:10,
         marginHorizontal: 20,
         paddingLeft: 45,
         borderRadius: 20,
-        color: '#ffffff',
+        // color: '#ffffff',
+        color: '#000000',
       },
       inputWrapperUserInput: {
         flex: 1,
@@ -378,4 +443,5 @@ const styles = StyleSheet.create({
         left: 35,
         top: 9,
       },
+      
   });

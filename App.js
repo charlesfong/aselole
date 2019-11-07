@@ -24,9 +24,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { Root } from "native-base";
+
+
 import AppView from './src/AppView';
 
+
 const App = () => {
+  
   return (
     <Root>
       <AppView />

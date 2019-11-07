@@ -21,13 +21,13 @@ import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import FadeInView from '../animation/FadeInView';
 import * as Animatable from 'react-native-animatable';
 
-
-
-export default class HomeScreen extends React.Component {
+var check_null=true;
+// var products="";
+export default class CategoryScreen extends React.Component {
 
 static navigationOptions = ({navigation}) => {
     return{
-        // header: null,
+        header: null,
         headerBackground: (
         <LinearGradient
             colors={['#048c4c', '#82bf26']}
@@ -43,20 +43,20 @@ handleViewRef = ref => this.view = ref;
 
 bounce = () => this.view.bounce(800).then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
 
-state = { frontEndCms: [], products: [], categories: [], country: "",searchOn: false, searchResult: []};
+state = { frontEndCms: [], products: [], categories: [], country: "", choosenCategory:""};
 
 componentWillMount() {
   var frontendcms_url = "";
   var categories_url = "";
   var bestseller_url = "";
   var ini = this;
-  AsyncStorage.getItem('country_selected', (error, result) => {
+    AsyncStorage.getItem('country_selected', (error, result) => {
       if (result) {
           var a = JSON.parse(result);
           this.setState({ country: a }, () => {
             frontendcms_url='https://wakimart.com/'+this.state.country+'/api/fetchFrontendCMS';
             categories_url='https://wakimart.com/'+this.state.country+'/api/fetchProduct';
-            bestseller_url='https://wakimart.com/'+this.state.country+'/api/bestSeller';
+            bestseller_url='https://wakimart.com/'+this.state.country+'/api/fetchProductCategory/'+this.props.navigation.state.params.id;
           });
       }
   });
@@ -70,24 +70,15 @@ componentWillMount() {
     );
     axios.get(bestseller_url).then(
       response => ini.setState({ products: response.data.data })
+      // response => products=response.data.data
     );
   }, 1000);
 
     
 } 
 
-_openDetailProducts = (isi_data) => {
-    Linking.canOpenURL('https://wakimart.com').then(supported => {
-    if (supported) {
-      Linking.openURL('https://wakimart.com/'+this.state.country+'/product/'+isi_data);
-    } else {
-      console.log("Don't know how to open URI: " + 'https://wakimart.com');
-    }
-  });
-};
-
 goToCategories = (id, kategori) => {
-  this.props.navigation.navigate({ 
+  this.props.navigation.replace({ 
     routeName: 'Category' , 
     params: { 
       id: id,
@@ -95,6 +86,19 @@ goToCategories = (id, kategori) => {
     }
   }); 
 }
+
+_openDetailProducts = (isi_data) => {
+    // this.props.navigation.navigate('ProductDetail', {
+    //     data_ne: isi_data,
+    // });
+    Linking.canOpenURL('https://wakimart.com').then(supported => {
+    if (supported) {
+      Linking.openURL('https://wakimart.com/'+this.state.country+'/product/'+isi_data);
+    } else {
+      console.log("Don't know how to open URI: " + 'https://google.com');
+    }
+  });
+};
 
 goToCart = () => {
   // return (
@@ -111,7 +115,9 @@ goToCart = () => {
 }
 
 renderCategories = () => {
+
     
+
     if(this.state.categories!=null&&this.state.categories!="")
     {
         const cellViews = this.state.categories.map(item => (
@@ -160,126 +166,28 @@ renderCategories = () => {
           </SkeletonPlaceholder>
         )
       }
-      
       return (
         <View style={styles.CategorycontainerStyle}>
           {cellViews}
         </View>
       );
     }
+    
 };
 
 renderBestSeller = () => {
+    
+    // if(products!=null&&products!="")
     if(this.state.products!=null&&this.state.products!="")
     {
       const cellViews = this.state.products.map(item => (
-        <TouchableOpacity key={item.id} 
-        onPress={() => this._openDetailProducts(item.id)}
-        // style={{width: '50%'}}
-        // onPress={() => this._openDetailProducts(item)}
-        >
-          <FadeInView>
-            <View style={styles.BestSellerCotainerOuterStyle}>
-              <View style={styles.BestSellerImageStyle}>
-              <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.itemOneImage} />
-              </View>
-              <View style={styles.BestSellerContainerInnerStyle}>
-                <Text style={styles.BestSellerTextTitleItem} numberOfLines={1}>
-                  {item.name}
-                </Text>
-                <Text style={styles.BestSellerTextPrice}>
-                  Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})}
-                  {/* Rp. {(item.product_prices.member).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
-                  {/* Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})} */}
-                </Text>
-                <Text style={styles.BestSellerTextSold} >
-                  {/* 0 Terjual */}
-                </Text>
-              </View>
-            </View>
-          </FadeInView>
-        </TouchableOpacity>
-      ));
-      return (
-        <View style={styles.BestSellerContainerStyle}>
-          {cellViews}
-        </View>
-      );
-    }
-    else
-    {
-      var cellViews = [];
-      for(let i = 0; i < 10; i++){
-        cellViews.push(
-          <SkeletonPlaceholder>
-              <View style={styles.BestSellerCotainerOuterStyle}>
-                <View style={styles.BestSellerImageStyle} />
-                <View style={styles.BestSellerContainerInnerStyle} />
-              </View>
-          </SkeletonPlaceholder>
-        )
-      }
-      
-      return (
-        <View style={styles.BestSellerContainerStyle}>
-          {cellViews}
-        </View>
-      );
-    }
-  };
-
-  renderRow = (item, sectionId, index) => {
-    return (
-      <TouchableHightLight
-        style={{
-          height: rowHeight,
-          justifyContent: 'center',
-          alignItems: 'center'}}
-      >
-        <Text>{item.name}</Text>
-      </TouchableHightLight>
-    );
-  }
-
-  updateSearch = (searchText) => {
-    axios.get('https://wakimart.com/'+this.state.country+'/api/fetchNewProduct', {
-    // axios.get('http://localhost:8080/wakimart/public/api/fetchNewProduct', {
-      params: {
-        keyword: searchText,
-      }
-    }).then(
-      // searchResult
-      response => this.setState({ searchResult: response.data.data }, () => {
-        
-      })     
-    );
-  }
-
-  ExecuteRenderSearchResult = () => {
-    this.setState({ searchOn: true }, () => {
-      console.warn(this.state.searchOn);
-    });
-    
-  }
-  renderNothing = () => {
-    return(
-      <View></View>
-    );
-  };
-  
-  renderSearchResult = () => {
-    
-    // if(products!=null&&products!="")
-    if(this.state.searchResult!=null&&this.state.searchResult!="")
-    {
-      const cellViews = this.state.searchResult.map(item => (
       // const cellViews = products.map(item => (
         <TouchableOpacity key={item.id} 
         onPress={() => this._openDetailProducts(item.id)}
         style={{width: '50%'}}
         >
           <FadeInView>
-          <View style={styles.SearchResultCotainerOuterStyle}>
+          <View style={styles.BestSellerCotainerOuterStyle}>
             <View style={styles.BestSellerImageStyle}>
             <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.itemOneImage} />
             </View>
@@ -301,10 +209,7 @@ renderBestSeller = () => {
         </TouchableOpacity>
       ));
       return (
-        // SearchResultContainerStyle
-        // {this.state.searchOn==true ?
-        // <View style={this.state.searchOn==true ? styles.SearchResultContainerStyle:styles.BestSellerContainerStyle}>
-        <View style={styles.SearchResultContainerStyle}>  
+        <View style={styles.BestSellerContainerStyle}>
           {cellViews}
         </View>
       );
@@ -321,9 +226,9 @@ renderBestSeller = () => {
               </View>
           </SkeletonPlaceholder>
         )
-        var check_null=true;
+        // var check_null=true;
         setTimeout(() => {
-          if(this.state.searchResult!=null&&this.state.searchResult!="")
+          if(this.state.products!=null&&this.state.products!="")
           {
 
           }
@@ -335,14 +240,36 @@ renderBestSeller = () => {
       }
       
       return (
-        <View style={styles.SearchResultContainerStyle}>
+        <View style={styles.BestSellerContainerStyle}>
           {check_null && cellViews}
           {!check_null && <Text style={{paddingLeft: Dimensions.get('window').width/14 }}>Kosong</Text>}
         </View>
       );
     }
   };
-  
+
+  renderRow = (item, sectionId, index) => {
+    return (
+      <TouchableHightLight
+        style={{
+          height: rowHeight,
+          justifyContent: 'center',
+          alignItems: 'center'}}
+      >
+        <Text>{item.name}</Text>
+      </TouchableHightLight>
+    );
+  }
+
+  updateSearch = (searchText) => {
+    axios.get('http://localhost:8080/wakimart/public/api/fetchNewProduct', {
+      params: {
+        keyword: searchText,
+      }
+    }).then(
+      response => console.log(response)   
+    );
+  }
   renderSearchBar = () => {
       
     return (
@@ -351,9 +278,6 @@ renderBestSeller = () => {
           <SearchBar
             onChangeText={(text) => {
                   this.updateSearch(text);
-            }}
-            onCancel={() => {
-              console.warn("asdasd");
             }}
             searchIcon={{ size: 24 }}
             inputStyle={{
@@ -367,9 +291,7 @@ renderBestSeller = () => {
               height: 30,
             }}
             onSubmitEditing={() => {
-              this.ExecuteRenderSearchResult();
-              // console.warn(this.state.searchOn);
-              // console.warn("ke halaman yang di search haruse mek e blom buat");
+              console.log("ke halaman yang di search haruse mek e blom buat");
             }}
             onSearch={(text) => {
               this.updateSearch(text);
@@ -424,46 +346,33 @@ renderBestSeller = () => {
 
 render() {
     return (
-        <View style={styles.containerStyle}>
+        <View style={{marginBottom:Dimensions.get('window').height/10}}>
             <MyStatusBar backgroundColor="#090" barStyle="light-content" /> 
                 <View>
                     {this.renderSearchBar()}
                 </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
-                    {this.state.searchOn==true ?this.renderNothing():
                     <Slideshow 
                         dataSource={this.state.frontEndCms}
                         indicatorSize={0}
                         arrowSize={0}
                         containerStyle={styles.sliderStyle}
-                    />}
-                    
+                    />
                 </View>
-                    
-                    <Text style={styles.textTitle}>
-                        {this.state.searchOn==true ?"" :"Categories"}
-                    </Text>
+                    <Text style={styles.textTitle}>Categories</Text>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {this.state.searchOn==true ?this.renderNothing():this.renderCategories()}
+                    {this.renderCategories()}
                 </ScrollView>
-                    <Text style={styles.textTitle}>{this.state.searchOn==true ? "Search Result " : "Best Seller"}</Text>
-                <ScrollView horizontal={this.state.searchOn==true ? false:true} showsHorizontalScrollIndicator={false}>
-                {this.state.searchOn==true ? this.renderSearchResult() : this.renderBestSeller()}
+                    <Text style={styles.textTitle}>{this.props.navigation.state.params.kategori}</Text>
+                <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}>
+                    {this.renderBestSeller()}
                 </ScrollView>
-                  <Text style={styles.textTitle}>{this.state.searchOn==true ? "Search Result " : "Best Seller"}</Text>
-                <ScrollView horizontal={this.state.searchOn==true ? false:true} showsHorizontalScrollIndicator={false}>
-                {this.state.searchOn==true ? this.renderSearchResult() : this.renderBestSeller()}
-                </ScrollView>
-                    {/* <Text style={styles.textTitle}>Promo Terbaru</Text> */}
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                </ScrollView>   
             </ScrollView>  
         </View>
         );
     }
 }
-
 
 const MyStatusBar = ({backgroundColor, ...props}) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
@@ -505,7 +414,7 @@ const styles = StyleSheet.create({
        textStyle: {
         fontSize: 20
        },
-       SearchResultCotainerOuterStyle: {
+       BestSellerCotainerOuterStyle: {
         marginLeft:5,
         marginRight:5,
         marginBottom:10,
@@ -521,22 +430,20 @@ const styles = StyleSheet.create({
         // position: 'relative',
         
       },
-       BestSellerCotainerOuterStyle: {
-        marginLeft:5,
-        marginRight:5,
-        marginBottom:10,
-        height: 230,
-        alignContent: 'stretch',
-        // flex: 1,
-        // alignSelf: 'stretch',
-        width: Dimensions.get('window').width / 2.6,
-        borderRadius: 15,
-        backgroundColor: '#ffffff',
-        elevation: 5,
-        shadowOpacity: 0.2,
-        // position: 'relative',
+      //  BestSellerCotainerOuterStyle: {
+      //   marginLeft:5,
+      //   marginRight:5,
+      //   marginBottom:10,
+      //   height: 230,
+      //   flex: 1,
+      //   width: Dimensions.get('window').width / 2.6,
+      //   borderRadius: 15,
+      //   backgroundColor: '#ffffff',
+      //   elevation: 5,
+      //   shadowOpacity: 0.2,
+      //   position: 'relative',
         
-      },
+      // },
       BestSellerImageStyle: {
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
@@ -568,37 +475,29 @@ const styles = StyleSheet.create({
         marginTop: 5,
       },
       BestSellerContainerStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 10,
-        marginRight: 17,
-        // backgroundColor:"#f00"
-      },
-      SearchResultContainerStyle: {
+        // flex: 1,
         flexWrap: 'wrap',
         flexDirection: 'row',
+        // justifyContent:"space-between",
+        // backgroundColor: 'black',
+        // paddingTop:10,
         marginLeft: Dimensions.get('window').width / 20,
         alignItems: 'flex-start',
         marginTop: Dimensions.get('window').height / 40,
         marginRight: Dimensions.get('window').width / 20,
+        // marginRight: 17,
+
+        // flexDirection: 'row',
+        // alignContent: 'stretch',
+        // justifyContent: 'space-around',
+        // marginTop: 10,
+        // marginRight: 17,
       },
       // BestSellerContainerStyle: {
-      //   // flex: 1,
-      //   flexWrap: 'wrap',
       //   flexDirection: 'row',
-      //   // justifyContent:"space-between",
-      //   // backgroundColor: 'black',
-      //   // paddingTop:10,
-      //   marginLeft: Dimensions.get('window').width / 20,
-      //   alignItems: 'flex-start',
-      //   // marginTop: 10,
-      //   // marginRight: 17,
-
-      //   // flexDirection: 'row',
-      //   // alignContent: 'stretch',
-      //   // justifyContent: 'space-around',
-      //   // marginTop: 10,
-      //   // marginRight: 17,
+      //   justifyContent: 'space-around',
+      //   marginTop: 10,
+      //   marginRight: 17,
       // },
       BestSellerContainerInnerStyle: {
         paddingLeft: 10,
