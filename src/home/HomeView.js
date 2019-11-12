@@ -228,6 +228,65 @@ renderBestSeller = () => {
     }
   };
 
+  renderNewPromo = () => {
+    if(this.state.products!=null&&this.state.products!="")
+    {
+      const cellViews = this.state.products.map(item => (
+        <TouchableOpacity key={item.id} 
+        onPress={() => this._openDetailProducts(item.id)}
+        // style={{width: '50%'}}
+        // onPress={() => this._openDetailProducts(item)}
+        >
+          <FadeInView>
+            <View style={styles.NewPromoContainerOuterStyle}>
+              <View style={styles.BestSellerImageStyle}>
+              <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.NewPromoImage} />
+              </View>
+              <View style={styles.BestSellerContainerInnerStyle}>
+                <Text style={styles.BestSellerTextTitleItem} numberOfLines={1}>
+                  {item.name}
+                </Text>
+                <Text style={styles.BestSellerTextPrice}>
+                  Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})}
+                  {/* Rp. {(item.product_prices.member).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
+                  {/* Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})} */}
+                </Text>
+                <Text style={styles.BestSellerTextSold} >
+                  {/* 0 Terjual */}
+                </Text>
+              </View>
+            </View>
+          </FadeInView>
+        </TouchableOpacity>
+      ));
+      return (
+        <View style={styles.BestSellerContainerStyle}>
+          {cellViews}
+        </View>
+      );
+    }
+    else
+    {
+      var cellViews = [];
+      for(let i = 0; i < 10; i++){
+        cellViews.push(
+          <SkeletonPlaceholder>
+              <View style={styles.BestSellerCotainerOuterStyle}>
+                <View style={styles.BestSellerImageStyle} />
+                <View style={styles.BestSellerContainerInnerStyle} />
+              </View>
+          </SkeletonPlaceholder>
+        )
+      }
+      
+      return (
+        <View style={styles.BestSellerContainerStyle}>
+          {cellViews}
+        </View>
+      );
+    }
+  };
+
   renderRow = (item, sectionId, index) => {
     return (
       <TouchableHightLight
@@ -451,9 +510,9 @@ render() {
                 <ScrollView horizontal={this.state.searchOn==true ? false:true} showsHorizontalScrollIndicator={false}>
                 {this.state.searchOn==true ? this.renderSearchResult() : this.renderBestSeller()}
                 </ScrollView>
-                  <Text style={styles.textTitle}>{this.state.searchOn==true ? "Search Result " : "Best Seller"}</Text>
+                  <Text style={styles.textTitle}>{this.state.searchOn==true ? "Search Result " : "New Promo"}</Text>
                 <ScrollView horizontal={this.state.searchOn==true ? false:true} showsHorizontalScrollIndicator={false}>
-                {this.state.searchOn==true ? this.renderSearchResult() : this.renderBestSeller()}
+                {this.state.searchOn==true ? this.renderSearchResult() : this.renderNewPromo()}
                 </ScrollView>
                     {/* <Text style={styles.textTitle}>Promo Terbaru</Text> */}
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -521,7 +580,24 @@ const styles = StyleSheet.create({
         // position: 'relative',
         
       },
-       BestSellerCotainerOuterStyle: {
+      NewPromoContainerOuterStyle: {
+        marginLeft:5,
+        marginRight:5,
+        marginBottom:Dimensions.get('window').height / 9,
+        height: Dimensions.get('window').height / 4.7,
+        alignContent: 'stretch',
+        
+        // flex: 1,
+        // alignSelf: 'stretch',
+        width: Dimensions.get('window').width / 1.5,
+        borderRadius: 15,
+        backgroundColor: '#ffffff',
+        elevation: 5,
+        shadowOpacity: 0.2,
+        // position: 'relative',
+        
+      },
+      BestSellerCotainerOuterStyle: {
         marginLeft:5,
         marginRight:5,
         marginBottom:10,
@@ -540,11 +616,17 @@ const styles = StyleSheet.create({
       BestSellerImageStyle: {
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+
         overflow: 'hidden',
       },
       itemOneImage: {
-        height: 170,
+        height: Dimensions.get('window').height / 5,
         width: '100%',
+      },
+      NewPromoImage: {
+        height: '100%',
+        width: '100%',
+        resizeMode: 'stretch',
       },
       BestSellerTextTitleItem: {
         // fontFamily: fonts.primaryRegular,
