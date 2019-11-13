@@ -497,7 +497,6 @@ render() {
                         arrowSize={0}
                         containerStyle={styles.sliderStyle}
                     />}
-                    
                 </View>
                     
                     <Text style={styles.textTitle}>
