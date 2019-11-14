@@ -43,12 +43,13 @@ handleViewRef = ref => this.view = ref;
 
 bounce = () => this.view.bounce(800).then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
 
-state = { frontEndCms: [], products: [], categories: [], country: "",searchOn: false, searchResult: []};
+state = { frontEndCms: [], products: [], promo: [],categories: [], country: "",searchOn: false, searchResult: []};
 
 componentWillMount() {
   var frontendcms_url = "";
   var categories_url = "";
   var bestseller_url = "";
+  var promo_url
   var ini = this;
   AsyncStorage.getItem('country_selected', (error, result) => {
       if (result) {
@@ -57,6 +58,7 @@ componentWillMount() {
             frontendcms_url='https://wakimart.com/'+this.state.country+'/api/fetchFrontendCMS';
             categories_url='https://wakimart.com/'+this.state.country+'/api/fetchProduct';
             bestseller_url='https://wakimart.com/'+this.state.country+'/api/bestSeller';
+            promo_url='https://wakimart.com/'+this.state.country+'/api/fetchPromo_rn';
           });
       }
   });
@@ -71,15 +73,18 @@ componentWillMount() {
     axios.get(bestseller_url).then(
       response => ini.setState({ products: response.data.data })
     );
+    axios.get(promo_url).then(
+      response => ini.setState({ promo: response.data.data })
+    );
   }, 1000);
 
     
 } 
 
-_openDetailProducts = (isi_data) => {
+_openDetailProducts = (isi_data,tipe) => {
     Linking.canOpenURL('https://wakimart.com').then(supported => {
     if (supported) {
-      Linking.openURL('https://wakimart.com/'+this.state.country+'/product/'+isi_data);
+      Linking.openURL('https://wakimart.com/'+this.state.country+'/'+tipe+'/'+isi_data);
     } else {
       console.log("Don't know how to open URI: " + 'https://wakimart.com');
     }
@@ -174,7 +179,7 @@ renderBestSeller = () => {
     {
       const cellViews = this.state.products.map(item => (
         <TouchableOpacity key={item.id} 
-        onPress={() => this._openDetailProducts(item.id)}
+        onPress={() => this._openDetailProducts(item.id,'product')}
         // style={{width: '50%'}}
         // onPress={() => this._openDetailProducts(item)}
         >
@@ -229,31 +234,18 @@ renderBestSeller = () => {
   };
 
   renderNewPromo = () => {
-    if(this.state.products!=null&&this.state.products!="")
+    if(this.state.promo!=null&&this.state.promo!="")
     {
-      const cellViews = this.state.products.map(item => (
+      const cellViews = this.state.promo.map(item => (
         <TouchableOpacity key={item.id} 
-        onPress={() => this._openDetailProducts(item.id)}
+        onPress={() => this._openDetailProducts(item.id,'promo')}
         // style={{width: '50%'}}
         // onPress={() => this._openDetailProducts(item)}
         >
           <FadeInView>
             <View style={styles.NewPromoContainerOuterStyle}>
-              <View style={styles.BestSellerImageStyle}>
-              <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.NewPromoImage} />
-              </View>
-              <View style={styles.BestSellerContainerInnerStyle}>
-                <Text style={styles.BestSellerTextTitleItem} numberOfLines={1}>
-                  {item.name}
-                </Text>
-                <Text style={styles.BestSellerTextPrice}>
-                  Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})}
-                  {/* Rp. {(item.product_prices.member).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
-                  {/* Rp. {parseFloat(item.product_prices.member).toLocaleString('en', {maximumFractionDigits:2})} */}
-                </Text>
-                <Text style={styles.BestSellerTextSold} >
-                  {/* 0 Terjual */}
-                </Text>
+              <View style={styles.PromoImageStyle}>
+              <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/promo_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.NewPromoImage} />
               </View>
             </View>
           </FadeInView>
@@ -509,9 +501,9 @@ render() {
                 <ScrollView horizontal={this.state.searchOn==true ? false:true} showsHorizontalScrollIndicator={false}>
                 {this.state.searchOn==true ? this.renderSearchResult() : this.renderBestSeller()}
                 </ScrollView>
-                  <Text style={styles.textTitle}>{this.state.searchOn==true ? "Search Result " : "New Promo"}</Text>
+                  <Text style={styles.textTitle}>{this.state.searchOn==true ? " " : "New Promo"}</Text>
                 <ScrollView horizontal={this.state.searchOn==true ? false:true} showsHorizontalScrollIndicator={false}>
-                {this.state.searchOn==true ? this.renderSearchResult() : this.renderNewPromo()}
+                {this.state.searchOn==true ? this.renderNothing() : this.renderNewPromo()}
                 </ScrollView>
                     {/* <Text style={styles.textTitle}>Promo Terbaru</Text> */}
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -582,7 +574,7 @@ const styles = StyleSheet.create({
       NewPromoContainerOuterStyle: {
         marginLeft:5,
         marginRight:5,
-        marginBottom:Dimensions.get('window').height / 9,
+        marginBottom:Dimensions.get('window').height / 8,
         height: Dimensions.get('window').height / 4.7,
         alignContent: 'stretch',
         
@@ -600,7 +592,7 @@ const styles = StyleSheet.create({
         marginLeft:5,
         marginRight:5,
         marginBottom:10,
-        height: 230,
+        height: Dimensions.get('window').height / 3.6,
         alignContent: 'stretch',
         // flex: 1,
         // alignSelf: 'stretch',
@@ -618,8 +610,15 @@ const styles = StyleSheet.create({
 
         overflow: 'hidden',
       },
+      PromoImageStyle: {
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        borderBottomLeftRadius:15,
+        borderBottomRightRadius: 15,
+        overflow: 'hidden',
+      },
       itemOneImage: {
-        height: Dimensions.get('window').height / 5,
+        height: Dimensions.get('window').height / 4.5,
         width: '100%',
       },
       NewPromoImage: {
@@ -629,13 +628,13 @@ const styles = StyleSheet.create({
       },
       BestSellerTextTitleItem: {
         // fontFamily: fonts.primaryRegular,
-        fontSize: 10,
+        fontSize: Dimensions.get('window').height/68,
         color: 'black',
       },
       BestSellerTextPrice: {
         // fontFamily: fonts.primaryRegular,
         color: '#00aa5c',
-        fontSize: 12,
+        fontSize: Dimensions.get('window').height/60,
         fontWeight: 'bold',
         marginLeft: 10,
         justifyContent: 'flex-end',

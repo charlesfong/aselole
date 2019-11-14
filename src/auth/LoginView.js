@@ -201,6 +201,7 @@ export default class LoginScreen extends Component {
               <View style={{ marginLeft: 20, marginRight: 20 }}>
                 <TextField
                   style={styles.inputUserInput}
+                  contentInset={'left'}
                   name='email'
                   label='Email / Phone Number'
                   autoCorrect={false}
@@ -220,6 +221,7 @@ export default class LoginScreen extends Component {
                   autoCapitalize="none"
                   returnKeyType='done'
                   baseColor={'#2b2b2b'}
+                  tintColor={'#2ace87'}
                   value={this.state.password}
                   secureTextEntry={this.state.showPass}
                   autoCorrect={false}
@@ -355,6 +357,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 40,
     marginBottom: 60,
+    // width: Dimensions.get('window').width - 10,
   },
   imageLogo: {
     width: 80,
