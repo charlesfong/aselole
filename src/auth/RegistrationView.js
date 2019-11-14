@@ -26,6 +26,10 @@ import backgroundImage from '../../assets/images/wakimartlogoangled.png';
 import correctImage from '../../assets/images/correct.png';
 import Navbar from '../product/komponen/NavBar';
 import spinner from '../../assets/images/loading.gif';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import PasswordInputText from 'react-native-hide-show-password-input';
+import { TextField } from 'react-native-material-textfield';
+
 
 const MARGIN = 40;
 var radio_props = [
@@ -57,7 +61,6 @@ export default class RegistrationScreen extends Component {
     
     static navigationOptions = ({navigation}) => {
         return{
-          // title:"R E G I S T R A S I",
           header: null,/* <Header textHeader='Profile' /> */
           // headerTitle: "Pesanan Saya",
           headerTitleStyle: {
@@ -263,9 +266,9 @@ export default class RegistrationScreen extends Component {
     var zipcode_check=true;
     var zipcode_err_msg="";
     const left = (
-      <Left style={{flex:1}}>
+      <Left style={{flexDirection: 'row', top:-10, left:15,}}>
         <Button transparent onPress={() => this.props.navigation.replace('Login')}>
-          <Icon name="ios-arrow-back" size={38} style={{fontSize: 38, marginTop:-35, color:"#090"}} />
+          <Icon name="ios-arrow-back" style={{fontSize: 35, color:"#2ace87"}} />
         </Button>
       </Left>
     );
@@ -273,29 +276,20 @@ export default class RegistrationScreen extends Component {
       <SafeAreaView style={{backgroundColor:"#ffffff"}}>
         <ScrollView showsVerticalScrollIndicator={false}>
         
-        <Navbar left={left} title="R E G I S T R A S I" />
-        <ImageBackground 
-          source={backgroundImage}
-          resizeMode="repeat"
-          style={styles.backgroundImage}
-        >
-        <View style={styles.containerLogo}>
-          {/* <Image source={logoImg} style={styles.imageLogo} /> */}
-          {/* <Text style={styles.textLogo}>R E G I S T R A S I</Text> */}
-          {/* <Image source={backgroundImage} /> */}
-          
-          
+        <View style={{marginTop: 40,}}>
+        <Navbar left={left} title="Registrasi"/>
         </View>
-        <View>
+        
+        <View style={{marginTop: 20,}}>
         <Foect.Form
             defaultValue={{
-                nik: '1231231',
-                name: 'charles',
-                email: 'example@doe.com',
+                nik: '1234512345',
+                name: 'Kocheng Oren',
+                email: 'johnexample@doe.com',
                 phone: '0824446689123',
                 zipcode: '1234',
-                agent_code: 'wkt1-003',
-                address: 'jalan',
+                agent_code: 'wkt1-234',
+                address: 'ujung langit pojok bumi',
             }}
             onValidSubmit={model => {
                 console.log(model);
@@ -370,22 +364,23 @@ export default class RegistrationScreen extends Component {
             >
             { /* you can use form for triggering submit or checking form state(form.isSubmitted, form.isValid, ...) */ }
             { form => (
-                <View style={styles.containerForm}>
+                <View style={{ marginLeft: 40, marginRight: 40 }}>
                 { /* every Foect.Control must have a name and optionally validation rules */ }
                 <Foect.Control name="nik" minLength={2} maxLength={32}>
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInput}>
-                        <TextInput
-                        style={styles.inputUserInput}
-                        placeholder="NIK"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        returnKeyType='done'
-                        placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                        underlineColorAndroid="transparent"
-                        onChangeText={(text) => control.onChange(text)}
-                        value={control.value}
+                        <TextField
+                          style={styles.inputUserInput}
+                          name='nik'
+                          label='NIK'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
+                          value={control.value}
+                          onChangeText={(text) => control.onChange(text)}
                         />
                         {
                           nik_check==false && 
@@ -399,16 +394,17 @@ export default class RegistrationScreen extends Component {
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInput}>
-                        <TextInput
-                        style={styles.inputUserInput}
-                        placeholder="Nama Lengkap"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        returnKeyType='done'
-                        placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                        underlineColorAndroid="transparent"
-                        onChangeText={(text) => control.onChange(text)}
+                        <TextField
+                          style={styles.inputUserInput}
+                          name='name'
+                          label='Nama Lengkap'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
                           value={control.value}
+                          onChangeText={(text) => control.onChange(text)}
                         />
                         {
                           name_check==false && 
@@ -422,19 +418,17 @@ export default class RegistrationScreen extends Component {
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInput}>
-                        <TextInput
-                        style={styles.inputUserInput}
-                        placeholder="Email"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        returnKeyType='done'
-                        placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                        underlineColorAndroid="transparent"
-                        onChangeText={(text) => {
-                          control.onChange(text)
-                          email_check=true;
-                        }}
-                        value={control.value}
+                        <TextField
+                          style={styles.inputUserInput}
+                          name='email'
+                          label='Email'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
+                          value={control.value}
+                          onChangeText={(text) => control.onChange(text)}
                         />
                         {
                           email_check==false && 
@@ -448,17 +442,17 @@ export default class RegistrationScreen extends Component {
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInput}>
-                        <TextInput
-                        style={styles.inputUserInput}
-                        placeholder="Nomor Telepon"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        returnKeyType='done'
-                        keyboardType='numeric'
-                        placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                        underlineColorAndroid="transparent"
-                        onChangeText={(text) => control.onChange(text)}
-                        value={control.value}
+                        <TextField
+                          style={styles.inputUserInput}
+                          name='phone'
+                          label='Nomor Telepon'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
+                          value={control.value}
+                          onChangeText={(text) => control.onChange(text)}
                         />
                         {
                           phone_check==false && 
@@ -472,16 +466,17 @@ export default class RegistrationScreen extends Component {
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInput}>
-                        <TextInput
-                        style={styles.inputUserInput}
-                        placeholder="Alamat Lengkap"
-                        autoCorrect={false}
-                        autoCapitalize="none"
-                        returnKeyType='done'
-                        placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                        underlineColorAndroid="transparent"
-                        onChangeText={(text) => control.onChange(text)}
-                        value={control.value}
+                        <TextField
+                          style={styles.inputUserInput}
+                          name='address'
+                          label='Alamat Lengkap'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
+                          value={control.value}
+                          onChangeText={(text) => control.onChange(text)}
                         />
                         {
                           address_check==false && 
@@ -495,20 +490,21 @@ export default class RegistrationScreen extends Component {
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInputRB}>
-                        <Text style={{color:"rgba(0, 230, 150, 0.75)", marginBottom:10, marginLeft:5}}>
+                        <Text style={{color:'#2b2b2b', marginTop:10, marginBottom:10}}>
                             Jenis Kelamin
                         </Text>
-                        <RadioForm 
+                        <RadioForm
+                            style={{marginLeft:10, marginTop: 5,}}
                             radio_props={radio_props}
                             initial={-1}
                             animation={true}
-                            buttonColor={'rgba(0, 0, 0, 0.4)'}
+                            buttonColor={'#999999'}
                             selectedButtonColor={'rgba(0, 230, 150, 1)'}
-                            selectedLabelColor={'rgba(0, 230, 150, 1)'}
-                            labelColor={'rgba(0, 0, 0, 0.4)'}
-                            // buttonSize={20}
-                            labelStyle={{ marginRight:Dimensions.get('window').width/11 }}
-                            formHorizontal={true}
+                            selectedLabelColor={'#2b2b2b'}
+                            labelColor={'#2b2b2b'}
+                            buttonSize={10}
+                            labelStyle={{ marginRight:Dimensions.get('window').width/11, marginBottom: 10, }}
+                            formHorizontal={false}
                             onPress={(value) => control.onChange(value)}
                             value={control.value}
                         />
@@ -524,32 +520,37 @@ export default class RegistrationScreen extends Component {
                     { /* you can use control for getting/setting it's value, checking/updating(control.isValid, control.markAsTouched(), ...) it's state, checking it's errors(control.errors.required) */ }
                     { control => (
                     <View style={styles.inputWrapperUserInputDate}>
-                    <Text style={{color:"rgba(0, 230, 150, 0.75)", marginTop:10, marginLeft:5}}>
+                    <Text style={{color:'#000000', marginTop: 5,}}>
                         Tanggal Lahir
                     </Text>
                     <DatePicker
-                        style={{ width: Dimensions.get('window').width - 80,marginTop:10, }}
+                        style={{ width: Dimensions.get('window').width - 80, marginTop:10, color:'#000000', }}
                         date={control.value}
                         mode="date"
                         placeholder="Tanggal Lahir"
                         format="DD-MM-YYYY"
                         androidMode="spinner"
-                        // minDate="2016-05-01"
-                        // maxDate="2016-06-01"
+                        minDate="01-01-1945"
+                        maxDate="31-12-2016"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         showIcon={false}
                         customStyles={{
+                          placeholderText: {
+                            fontSize: 14,
+                            color: '#2b2b2b'
+                          },
+                          dateInput: {
+                            borderColor: '#2b2b2b',
+                            borderRadius: 5,
+                            borderWidth: 0.5,
+                          },
                         // dateIcon: {
                         //     position: 'absolute',
                         //     left: 0,
                         //     top: 4,
                         //     marginLeft: 0
                         // },
-                        // dateInput: {
-                        //     marginLeft: 36
-                        // }
-                        // ... You can check the source to find the other keys.
                         }}   
                         onDateChange={(date) => control.onChange(date) }
                         value={control.value}
@@ -572,8 +573,8 @@ export default class RegistrationScreen extends Component {
                             data={this.province_data}
                             itemCount={7}
                             // borderBottomColor="rgba(0, 255, 0, 0.35)"
-                            textColor="rgba(0, 0, 0, 0.75)"
-                            baseColor="rgba(0, 230, 150, 0.75)"
+                            textColor='#2b2b2b'
+                            baseColor='#2b2b2b'
                             dropdownPosition={7}
                             // onChangeText={(text) => control.onChange(text)}
                             // onChange={console.log("asdas")}
@@ -599,10 +600,9 @@ export default class RegistrationScreen extends Component {
                       { control => (
                       <View style={styles.inputWrapperUserInputCbox}>
                           <Dropdown
-                              style={{height: 40, borderBottomWidth:0,borderBottomColor: '#090',marginBottom:10 }}
                               label='City'
                               data={this.city_data}
-                              baseColor="rgba(0, 230, 150, 0.75)"
+                              baseColor='#2b2b2b'
                               onChangeText={(text) => control.onChange(text)}
                               value={control.value}
                           />
@@ -619,18 +619,20 @@ export default class RegistrationScreen extends Component {
                       { control => (
                       <View style={styles.inputWrapperUserInput}>
                           {/* <Text>Phone Number</Text> */}
-
-                          <TextInput
+                          <TextField
                           style={styles.inputUserInput}
-                        //   style={{height: 40, borderBottomWidth:2,borderBottomColor: '#090',marginBottom:10 }}
-                          // { /* mark control as touched on blur */ }
+                          name='zipcode'
+                          label='Zip Code'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
                           keyboardType='numeric'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
+                          value={control.value}
                           onBlur={control.markAsTouched}
                           onChangeText={(text) => control.onChange(text)}
-                          value={control.value}
-                          placeholder="Zip Code"
-                          placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                          />
+                        />
                           {
                           zipcode_check==false && 
                           <View>
@@ -642,18 +644,23 @@ export default class RegistrationScreen extends Component {
                   <Foect.Control name="agent_code">
                       { control => (
                       <View style={styles.inputWrapperUserInput}>
-                          <TextInput
+                        <TextField
                           style={styles.inputUserInput}
-                        //   style={{height: 40, borderBottomWidth:2,borderBottomColor: '#090',marginBottom:10 }}
+                          name='agent_code'
+                          label='Agent Code'
+                          autoCorrect={false}
+                          autoCapitalize="none"
+                          returnKeyType='done'
+                          keyboardType='numeric'
+                          baseColor={'#2b2b2b'}
+                          tintColor={'#2ace87'}
+                          value={control.value}
                           onBlur={control.markAsTouched}
                           onChangeText={(text) => {
                             control.onChange(text)
                             this.checkAgentCode(text);
                           }}
-                          value={control.value}
-                          placeholder="Agent Code"
-                          placeholderTextColor="rgba(0, 230, 150, 0.75)"
-                          />
+                        />
                           {
                           this.state.agentcode_valid==false && 
                           <View>
@@ -672,13 +679,13 @@ export default class RegistrationScreen extends Component {
                           <Image source={spinner} style={styles.imageButtonSubmit} />
                           ) : (
                               <LinearGradient
-                                colors={['#82bf26', '#048c4c']}
+                                colors={['#7ac02f', '#2cce85']}
                                 style={styles.buttonSubmit}
                                 start={{x: 0, y: 0}}
                                 end={{x: 1, y: 0}}
                               >
                               <Text style={styles.buttonText}>
-                                D A F T A R
+                                DAFTAR
                               </Text>
                               </LinearGradient>
                           )}
@@ -731,7 +738,6 @@ export default class RegistrationScreen extends Component {
             </View>
           </Modal>
         </View>
-        </ImageBackground>
       </ScrollView>
       </SafeAreaView>
     );
@@ -745,8 +751,7 @@ const styles = StyleSheet.create({
       // resizeMode: 'cover',
     },
     modalButton: {
-      width:100
-      
+      width:100,
     },
     modalTextBigger: {
       fontSize: Dimensions.get('window').width /12,
@@ -769,17 +774,12 @@ const styles = StyleSheet.create({
       justifyContent: 'center', 
       flex: 1,
     },
-    backgroundImage: {
-        flex:1,
-        width: Dimensions.get('window').width,
-        // height: Dimensions.get('window').height,
-    },
     buttonSubmit:{
-        marginTop: Dimensions.get('window').height /25,
-        height: Dimensions.get('window').height /15,
-        width: Dimensions.get('window').width /1.2,
-        borderRadius: 100,
-        marginBottom:10,
+      height: 50,
+      width: Dimensions.get('window').width - 120,
+      borderRadius: 50,
+      flex: 1,
+      justifyContent: 'space-around',
     },
     buttonText: {
         fontSize: 18,
@@ -821,17 +821,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F035E0',
     },
     textButtonSubmit: {
-    color: 'red',
+    color: 'white',
     backgroundColor: 'transparent',
     },
     imageButtonSubmit: {
-    width: 24,
-    height: 24,
+    // width: 24,
+    // height: 24,
     },
     containerButtonSubmit: {
-        // flex: 1,
+        flex: 1,
         // top: -75,
         alignItems: 'center',
+      justifyContent: 'flex-start',
         // justifyContent: 'flex-start',
     },
     containerButtonCancel: {
@@ -920,40 +921,33 @@ const styles = StyleSheet.create({
       },
       inputUserInput: {
         width: Dimensions.get('window').width - 40,
-        height: Dimensions.get('window').height/20,
-        fontSize: Dimensions.get('window').height/50,
-        paddingLeft: Dimensions.get('window').width/14,
-        borderRadius: 20,
-        borderBottomColor: "rgba(0, 255, 0, 0.35)",
-        borderBottomWidth:1,
       },
       inputWrapperUserInput: {
-        // flex: 1,
-        marginTop: Dimensions.get('window').height/35,
-        // backgroundColor:"#5e5eff"
+        flex: 1,
+        marginTop: 0,
+        // marginTop: Dimensions.get('window').height/35,
       },
       inputWrapperUserInputRB: {
         // flexGrow:1,
         // alignItems: 'center',
-        marginLeft: Dimensions.get('window').width/9,
-        marginTop: Dimensions.get('window').height/30,
-        width: Dimensions.get('window').width - 40,
-        height: Dimensions.get('window').height/20,
+        // marginTop: Dimensions.get('window').height/30,
+        // width: Dimensions.get('window').width - 40,
+        // height: Dimensions.get('window').height/20,
         // fontSize:10,
       },
       inputWrapperUserInputDate: {
         // flex: 1,
         // flexDirection: 'row',
         // marginLeft: Dimensions.get('window').width/9,
-        marginTop: Dimensions.get('window').height/30,
+        // marginTop: Dimensions.get('window').height/30,
         // width: Dimensions.get('window').width - 40,
-        height: Dimensions.get('window').height/9,
+        // height: Dimensions.get('window').height/9,
       },
       inputWrapperUserInputCbox: {
         // marginLeft: Dimensions.get('window').width/9,
-        marginTop: -Dimensions.get('window').height/45,
-        width: Dimensions.get('window').width-80,
-        height: Dimensions.get('window').height/10,
+        // marginTop: -Dimensions.get('window').height/45,
+        // width: Dimensions.get('window').width-80,
+        // height: Dimensions.get('window').height/10,
       },
       inlineImgUserInput: {
         backgroundColor:"#5eff5e"
