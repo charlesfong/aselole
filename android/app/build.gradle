@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
-
+implementation project(':react-native-reanimated')
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -95,7 +95,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.test002"
+        applicationId "com.tesrename"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

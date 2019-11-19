@@ -1,4 +1,4 @@
-rootProject.name = 'test002'
+rootProject.name = 'tesrename'
 include ':react-native-webview'
 project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
 include ':react-native-reanimated'

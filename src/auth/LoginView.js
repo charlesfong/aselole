@@ -18,7 +18,7 @@ import spinner from '../../assets/images/loading.gif';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 import eyeImg from '../../assets/images/eye_black.png';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { TextField } from 'react-native-material-textfield';
 
@@ -188,7 +188,7 @@ export default class LoginScreen extends Component {
     return (
       <ImageBackground style={styles.picture} >
 
-        <KeyboardAwareScrollView keyboardShouldPersistTaps='always' style={{ flex: 1 }}>
+        {/* <KeyboardAwareScrollView keyboardShouldPersistTaps='always' style={{ flex: 1 }}> */}
 
           <View style={styles.containerLogo}>
             {/* <Image source={logoImg} style={styles.imageLogo} /> */}
@@ -283,7 +283,7 @@ export default class LoginScreen extends Component {
               </LinearGradient>
             </TouchableOpacity>
           </View>
-        </KeyboardAwareScrollView>
+        {/* </KeyboardAwareScrollView> */}
 
       </ImageBackground>
     );
