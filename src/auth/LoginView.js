@@ -239,7 +239,7 @@ export default class LoginScreen extends Component {
           </View>
 
           <View style={styles.containerButtonSubmit}>
-            <Animated.View style={{ width: changeWidth }}>
+            <Animated.View>
               <TouchableOpacity
                 style={styles.buttonButtonSubmit}
                 onPress={this._onPress}
@@ -264,22 +264,24 @@ export default class LoginScreen extends Component {
               // style={[styles.circleButtonSubmit,]}
               />
             </Animated.View>
-            <TouchableOpacity
-              style={styles.buttonButtonSubmit}
-              onPress={() => this.goToRegis()}
-            // activeOpacity={1}
-            >
-              <LinearGradient
-                colors={['#7ac02f', '#2cce85']}
-                style={styles.buttonG}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
+            <Animated.View>
+              <TouchableOpacity
+                style={styles.buttonButtonSubmit}
+                onPress={() => this.goToRegis()}
+              // activeOpacity={1}
               >
-                <Text style={styles.buttonText}>
-                  REGISTER
+                <LinearGradient
+                  colors={['#7ac02f', '#2cce85']}
+                  style={styles.buttonG}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  <Text style={styles.buttonText}>
+                    REGISTER
           </Text>
-              </LinearGradient>
-            </TouchableOpacity>
+                </LinearGradient>
+              </TouchableOpacity>
+            </Animated.View>
           </View>
         </KeyboardAwareScrollView>
 

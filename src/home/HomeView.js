@@ -179,7 +179,7 @@ renderBestSeller = () => {
         // onPress={() => this._openDetailProducts(item)}
         >
           <FadeInView>
-            <View style={styles.BestSellerCotainerOuterStyle}>
+            <View style={styles.BestSellerContainerOuterStyle}>
               <View style={styles.BestSellerImageStyle}>
               <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.itemOneImage} />
               </View>
@@ -493,8 +493,9 @@ render() {
                     {this.state.searchOn==true ?this.renderNothing():
                     <Slideshow 
                         dataSource={this.state.frontEndCms}
-                        indicatorSize={0}
-                        arrowSize={0}
+                        onPress={this.handleSlides}
+                        indicatorSize={5}
+                        arrowSize={15}
                         containerStyle={styles.sliderStyle}
                     />}
                 </View>
@@ -601,21 +602,18 @@ const styles = StyleSheet.create({
         marginRight:5,
         marginBottom:10,
         height: 230,
-        alignContent: 'stretch',
-        // flex: 1,
-        // alignSelf: 'stretch',
+        flex: 1,
         width: Dimensions.get('window').width / 2.6,
         borderRadius: 15,
         backgroundColor: '#ffffff',
         elevation: 5,
         shadowOpacity: 0.2,
-        // position: 'relative',
+    position: 'relative',
         
       },
       BestSellerImageStyle: {
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
-
         overflow: 'hidden',
       },
       itemOneImage: {
