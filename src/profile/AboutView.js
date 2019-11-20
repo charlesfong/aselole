@@ -9,7 +9,6 @@ import { StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { BackHandler } from 'react-native';
 import Moment from 'moment';
-import vcImg from '../../assets/images/virtualcard.png'
 // import { getStatusBarHeight } from 'react-native-status-bar-height';
  
 // 44 - on iPhoneX
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
 })
 
 
-export default class VirtualCardScreen extends Component {
+export default class AboutScreen extends Component {
   
 
   static navigationOptions = ({navigation}) => {
@@ -325,6 +324,109 @@ export default class VirtualCardScreen extends Component {
               </Text>
             </View>
           </View>
+        </View>
+
+      <ListItem
+          containerStyle={{ height: 120, }}
+            linearGradientProps={{
+              colors: ['#048c4c', '#82bf26'],
+              useAngle: true,
+            }}
+            ViewComponent={LinearGradient}
+          leftIcon={
+            <TouchableOpacity onPress={this.onPress}>
+              <Avatar
+                containerStyle={{
+                  marginLeft: 5,
+                  marginRight: 10,
+                }}
+                rounded
+                size="large"
+                source={{
+                  // uri: avatar,
+                }}
+              />
+            </TouchableOpacity>
+          }
+            title={
+              <TouchableOpacity onPress={this.onPress}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    marginBottom: 5,
+                  }}>{this.state.profileData.name}
+                </Text>
+              </TouchableOpacity>
+            }
+            titleStyle={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              color: 'white',
+              marginBottom: 5,
+              letterSpacing: 0.5,
+            }}
+            subtitle={
+              <TouchableOpacity onPress={this.onPress}>
+              <View style={{ width: "80%", }}>
+                <View style={{flexDirection: "row", }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 11,
+                      marginBottom: 5,
+                    }}>{this.state.profileData.code}
+                </Text>
+                  <BaseIcon
+                    containerStyle={{
+                      backgroundColor: '#transparent',
+                      margin: -10,
+                      marginLeft: -5,
+                    }}
+                    icon={{
+                      type: 'material',
+                      name: 'verified-user',
+                      color: 'white',
+                      size: 15,
+                    }}
+                  />
+                </View>
+                <View style={{flexDirection: "column", }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 10,
+                      marginBottom: 5,
+                    }}>
+                      {this.state.country=="id" ? "Bergabung sejak " : "Joined since "}
+                      {Moment(this.state.profileData.created_at).format('d MMM YYYY')}
+                  </Text>
+                </View>
+              </View>
+              </TouchableOpacity>
+            }
+            rightIcon={(
+              // <TouchableOpacity onPress={this.ComingSoon()}>
+              <BaseIcon
+                containerStyle={{
+                  backgroundColor: '#transparent',
+                  marginRight: 0,
+                }}
+                icon={{
+                  type: 'ionicon',
+                  name: 'ios-arrow-forward',
+                  color: 'white',
+                  size: 30,
+                }}
+              />
+              // </TouchableOpacity>
+            )}
+          />
+
+       
+        <View>
+          
         </View>
       </ScrollView>
     )

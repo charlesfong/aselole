@@ -425,7 +425,7 @@ export default class Profile extends Component {
           </Text>
           <ListItem
             // title="Kartu Virtual Member"
-            title={this.state.country=="id" ? "Kartu Virasdstual Member " : "Virtual Member Card "}
+            title={this.state.country=="id" ? "Kartu Virtual Member " : "Virtual Member Card "}
             titleStyle={styles.titleStyle}
             subtitle={this.state.country=="id" ? "Lihat kartu visual keanggotaan WAKimart. " : "Open Virtual Member Card. "}
             // subtitle="Lihat kartu visual keanggotaan WAKimart."
@@ -451,15 +451,9 @@ export default class Profile extends Component {
                   backgroundColor: '#transparent',
                   marginRight: 1,
                 }}
-                // icon={{
-                //   type: 'ionicon',
-                //   name: 'ios-arrow-forward',
-                //   color: '#505B6F',
-                //   size: 35,
-                // }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-lock',
+                  name: 'ios-arrow-forward',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -704,7 +698,7 @@ export default class Profile extends Component {
             // subtitle="Mengetahui lebih dalam tentang WAKimart."
             subtitle={this.state.country=="id" ? "Mengetahui lebih dalam tentang WAKimart. " : "Know more about WAKimart "}
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.props.navigation.navigate('ChatView')}
+            onPress={() => this.props.navigation.navigate('About')}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -727,8 +721,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  // name: 'ios-arrow-forward',
-                  name: 'ios-lock',
+                  name: 'ios-arrow-forward',
+                  // name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
