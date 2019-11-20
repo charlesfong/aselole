@@ -284,12 +284,12 @@ export default class RegistrationScreen extends Component {
         <Foect.Form
             defaultValue={{
                 nik: '1234512345',
-                name: 'Kocheng Oren',
+                name: 'Nama Contoh',
                 email: 'johnexample@doe.com',
                 phone: '0824446689123',
                 zipcode: '1234',
-                agent_code: 'wkt1-234',
-                address: 'ujung langit pojok bumi',
+                agent_code: 'wkt1-003',
+                address: 'Alamat contoh',
             }}
             onValidSubmit={model => {
                 console.log(model);

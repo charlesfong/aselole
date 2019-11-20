@@ -8,6 +8,7 @@ import LoginScreen from '../auth/LoginView';
 import RegistrationScreen from '../auth/RegistrationView';
 import CheckLogin from '../auth/CheckLogin';
 import ProfileScreen from '../profile/ProfileView';
+import VirtualCardScreen from '../profile/VirtualCardView'
 import CheckOutScreen from '../checkout/CheckoutView';
 import CartScreen from '../product/Cart';
 import PaymentScreen from '../checkout/PaymentView';
@@ -43,6 +44,7 @@ const HomeTab = createStackNavigator(
       CheckLogin: CheckLogin ,
       Login: LoginScreen,
       Profile: ProfileScreen,
+      VirtualCard: VirtualCardScreen,
       History: HistoryScreen,
       Registration: RegistrationScreen,
     },
