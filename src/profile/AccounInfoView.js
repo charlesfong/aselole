@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 })
 
 
-export default class AboutScreen extends Component {
+export default class AccountInfoScreen extends Component {
   
 
   static navigationOptions = ({navigation}) => {
@@ -166,8 +166,8 @@ export default class AboutScreen extends Component {
               padding: 10,
             }}
             title={this.state.country=="id" ?
-              "Tentang WAKimart" : 
-              "About Us WAKimart"}
+              "Informasi Akun" : 
+              "Account Information"}
             titleStyle={{
               color: 'black',
               fontSize: 22,

@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native';
 import { BackHandler } from 'react-native';
 import Moment from 'moment';
 import vcImg from '../../assets/images/virtualcard.png'
+import { NavigationActions } from 'react-navigation';
 // import { getStatusBarHeight } from 'react-native-status-bar-height';
  
 // 44 - on iPhoneX
@@ -154,27 +155,6 @@ export default class VirtualCardScreen extends Component {
     this.props.navigation.replace('CheckLogin');
   }
 
-  constructor(props) {
-    super(props);
-    this.backButtonClick = this.backButtonClick.bind(this);
-  }
-
-  componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.backButtonClick);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.backButtonClick);
-  }
-
-  backButtonClick() {
-    if (this.props.navigation && this.props.navigation.goBack) {
-      this.props.navigation.goBack(null);
-      return true;
-    }
-    return false;
-  }
-
   onPressOptions = () => {
     this.props.navigation.navigate('options');
   }
@@ -209,6 +189,7 @@ export default class VirtualCardScreen extends Component {
               height:70,
               elevation: 25,
               shadowOpacity: 1,
+              padding: 10,
             }}
             title={this.state.country=="id" ?
               "Kartu Virtual" : 
@@ -224,29 +205,29 @@ export default class VirtualCardScreen extends Component {
               fontSize: 22,
               fontWeight: 'bold',
               letterSpacing: 0.5,
-              marginLeft: -10,
               top: 10,
-              textAlign: 'center',
+              alignSelf: 'center',
+              marginRight: 40,
             }}
-          leftIcon={(
+          leftIcon={
+            <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
               <BaseIcon
                 containerStyle={{
-                  backgroundColor: '#transparent',
-                  marginLeft: 10,
+                  backgroundColor: 'transparent',
                   marginRight: 0,
-                  top: 30,
-                  position: 'absolute',
+                  marginLeft: 0,
+                  top: 10,
                   flex: 1,
-                  zIndex: 99,
+                  zIndex: 5,
                 }}
                 icon={{
                   type: 'ionicon',
                   name: 'ios-arrow-back',
-                  tintColor: '#white',
                   size: 30,
                 }}
               />
-          )}
+            </TouchableOpacity>
+          }
         />
       
       <View style={styles.container}>

@@ -9,6 +9,7 @@ import RegistrationScreen from '../auth/RegistrationView';
 import CheckLogin from '../auth/CheckLogin';
 import ProfileScreen from '../profile/ProfileView';
 import VirtualCardScreen from '../profile/VirtualCardView';
+import AccountInfoScreen from '../profile/AccountInfoView';
 import AboutScreen from '../profile/AboutView';
 import CheckOutScreen from '../checkout/CheckoutView';
 import CartScreen from '../product/Cart';
@@ -42,7 +43,7 @@ const HomeTab = createStackNavigator(
   );
   const AccountTab = createStackNavigator(
     {
-      CheckLogin: CheckLogin ,
+      CheckLogin: CheckLogin,
       Login: LoginScreen,
       Profile: ProfileScreen,
       VirtualCard: VirtualCardScreen,
