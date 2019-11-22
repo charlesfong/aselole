@@ -538,12 +538,12 @@ export default class Profile extends Component {
           /> */}
 
 
-          {/* <ListItem
+          <ListItem
             title="Informasi Akun"
             titleStyle={styles.titleStyle}
             subtitle="Atur detail data dan informasi akun Anda."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.ComingSoon()}
+            onPress={() => this.props.navigation.navigate('AccountInfoView')}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -566,14 +566,14 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  // name: 'ios-arrow-forward',
-                  name: 'ios-lock',
+                  name: 'ios-arrow-forward',
+                  // name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
               />
             )}
-          /> */}
+          />
 
           <ListItem
             // title="Pindah Negara"

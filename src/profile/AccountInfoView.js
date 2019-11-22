@@ -242,8 +242,6 @@ export default class AccountInfoScreen extends Component {
           
       </View>
           
-
-      
       </ScrollView>
     )
   }
