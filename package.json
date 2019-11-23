@@ -40,6 +40,7 @@
     "react-native-search-box": "0.0.19",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-skeleton-placeholder": "^1.0.3",
+    "react-native-slideshow": "^1.0.1",
     "react-native-ui-lib": "^3.38.3",
     "react-native-webview": "^7.4.2",
     "react-navigation": "^4.0.9",

@@ -135,21 +135,19 @@ export default class Profile extends Component {
     return (
       
       <ScrollView style={styles.scroll}>
-          <LinearGradient colors={["#79e3fe","#635df8","#42385D"]}  style={{flex: 1}}>
+          <LinearGradient colors={["#048c4c","#82bf26"]}  style={{flex: 1}}>
       <StatusBar translucent={true} backgroundColor={'transparent'} />
   </LinearGradient >
 
       <ListItem
             containerStyle={{
               height:80,
-              paddingTop:20,
-              marginBottom:-20,
+              paddingBottom: 0,
             }}
             title={this.state.country=="id" ?
               "Akun" : 
               "Account"}
             linearGradientProps={{
-              colors: ['#048c4c', '#ffffff'],
               colors: ['#048c4c', '#82bf26'],
               useAngle: true,
             }}
@@ -158,15 +156,14 @@ export default class Profile extends Component {
               color: 'white',
               fontSize: 24,
               fontWeight: 'bold',
-              marginBottom: -10,
-              letterSpacing: 0.2,
+              letterSpacing: 0.5,
               marginLeft: 5,
             }}
           
         />
 
       <ListItem
-          containerStyle={{ height: 120, }}
+          containerStyle={{ height: 120, paddingTop: 0,}}
             linearGradientProps={{
               colors: ['#048c4c', '#82bf26'],
               useAngle: true,
@@ -433,7 +430,7 @@ export default class Profile extends Component {
             subtitle={this.state.country=="id" ? "Lihat kartu visual keanggotaan WAKimart. " : "Open Virtual Member Card. "}
             // subtitle="Lihat kartu visual keanggotaan WAKimart."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.ComingSoon()}
+            onPress={() => this.props.navigation.navigate('VirtualCard')}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -454,15 +451,9 @@ export default class Profile extends Component {
                   backgroundColor: '#transparent',
                   marginRight: 1,
                 }}
-                // icon={{
-                //   type: 'ionicon',
-                //   name: 'ios-arrow-forward',
-                //   color: '#505B6F',
-                //   size: 35,
-                // }}
                 icon={{
                   type: 'ionicon',
-                  name: 'ios-lock',
+                  name: 'ios-arrow-forward',
                   color: '#505B6F',
                   size: 35,
                 }}
@@ -547,12 +538,12 @@ export default class Profile extends Component {
           /> */}
 
 
-          {/* <ListItem
+          <ListItem
             title="Informasi Akun"
             titleStyle={styles.titleStyle}
             subtitle="Atur detail data dan informasi akun Anda."
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.ComingSoon()}
+            onPress={() => this.props.navigation.navigate('AccountInfoView')}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -575,14 +566,14 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  // name: 'ios-arrow-forward',
-                  name: 'ios-lock',
+                  name: 'ios-arrow-forward',
+                  // name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}
               />
             )}
-          /> */}
+          />
 
           <ListItem
             // title="Pindah Negara"
@@ -707,7 +698,7 @@ export default class Profile extends Component {
             // subtitle="Mengetahui lebih dalam tentang WAKimart."
             subtitle={this.state.country=="id" ? "Mengetahui lebih dalam tentang WAKimart. " : "Know more about WAKimart "}
             subtitleStyle={styles.subtitleStyle}
-            onPress={() => this.props.navigation.navigate('ChatView')}
+            onPress={() => this.props.navigation.navigate('About')}
             containerStyle={styles.listItemContainer}
             leftIcon={(
               <BaseIcon
@@ -730,8 +721,8 @@ export default class Profile extends Component {
                 }}
                 icon={{
                   type: 'ionicon',
-                  // name: 'ios-arrow-forward',
-                  name: 'ios-lock',
+                  name: 'ios-arrow-forward',
+                  // name: 'ios-lock',
                   color: '#505B6F',
                   size: 35,
                 }}

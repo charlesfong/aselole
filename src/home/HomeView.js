@@ -122,6 +122,7 @@ renderCategories = () => {
         const cellViews = this.state.categories.map(item => (
         <TouchableOpacity key={item.id}
         onPress={() => this.goToCategories(item.id,item.name)}
+        activeOpacity={0.8}
         >
           <FadeInView>
             <View>
@@ -179,12 +180,13 @@ renderBestSeller = () => {
     {
       const cellViews = this.state.products.map(item => (
         <TouchableOpacity key={item.id} 
-        onPress={() => this._openDetailProducts(item.id,'product')}
+        onPress={() => this._openDetailProducts(item.id,'product')} 
+        activeOpacity={0.8}
         // style={{width: '50%'}}
         // onPress={() => this._openDetailProducts(item)}
         >
           <FadeInView>
-            <View style={styles.BestSellerCotainerOuterStyle}>
+            <View style={styles.BestSellerContainerOuterStyle}>
               <View style={styles.BestSellerImageStyle}>
               <Image source={{ uri: `https://wakimart.com/${(this.state.country)}/sources/product_images/${(item.code).toLowerCase()}/${item.image.substring(2, item.image.length-2)}` }} style={styles.itemOneImage} />
               </View>
@@ -238,7 +240,8 @@ renderBestSeller = () => {
     {
       const cellViews = this.state.promo.map(item => (
         <TouchableOpacity key={item.id} 
-        onPress={() => this._openDetailProducts(item.id,'promo')}
+        onPress={() => this._openDetailProducts(item.id,'promo')} 
+        activeOpacity={0.8}
         // style={{width: '50%'}}
         // onPress={() => this._openDetailProducts(item)}
         >
@@ -485,8 +488,9 @@ render() {
                     {this.state.searchOn==true ?this.renderNothing():
                     <Slideshow 
                         dataSource={this.state.frontEndCms}
-                        indicatorSize={0}
-                        arrowSize={0}
+                        onPress={this.handleSlides}
+                        indicatorSize={5}
+                        arrowSize={15}
                         containerStyle={styles.sliderStyle}
                     />}
                 </View>
@@ -574,12 +578,10 @@ const styles = StyleSheet.create({
       NewPromoContainerOuterStyle: {
         marginLeft:5,
         marginRight:5,
-        marginBottom:Dimensions.get('window').height / 8,
-        height: Dimensions.get('window').height / 4.7,
+        marginBottom:Dimensions.get('window').height / 7,
+        height: Dimensions.get('window').height / 3.5,
         alignContent: 'stretch',
-        
         // flex: 1,
-        // alignSelf: 'stretch',
         width: Dimensions.get('window').width / 1.5,
         borderRadius: 15,
         backgroundColor: '#ffffff',
@@ -592,22 +594,20 @@ const styles = StyleSheet.create({
         marginLeft:5,
         marginRight:5,
         marginBottom:10,
-        height: Dimensions.get('window').height / 3.6,
+        height: 230,
+        flex: 1,
         alignContent: 'stretch',
-        // flex: 1,
-        // alignSelf: 'stretch',
         width: Dimensions.get('window').width / 2.6,
         borderRadius: 15,
         backgroundColor: '#ffffff',
         elevation: 5,
         shadowOpacity: 0.2,
-        // position: 'relative',
+        position: 'relative',
         
       },
       BestSellerImageStyle: {
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
-
         overflow: 'hidden',
       },
       PromoImageStyle: {

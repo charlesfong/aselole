@@ -671,7 +671,7 @@ export default class RegistrationScreen extends Component {
                   </Foect.Control>
 
                   <View style={styles.containerButtonSubmit}>
-                    <Animated.View style={{width: changeWidth}}>
+                    <Animated.View>
                       <TouchableOpacity
                         onPress={() => form.submit()} 
                       >
@@ -731,7 +731,7 @@ export default class RegistrationScreen extends Component {
                         
                     >
                     <Text style={styles.buttonText}>
-                        M A S U K
+                        MASUK
                     </Text>
                     </LinearGradient>
               </TouchableOpacity>
@@ -775,20 +775,20 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     buttonSubmit:{
-      height: 50,
+      height: 40,
       width: Dimensions.get('window').width - 120,
       borderRadius: 50,
       flex: 1,
       justifyContent: 'space-around',
     },
     buttonText: {
-        fontSize: 18,
-        fontWeight: "bold",
-        // fontFamily: 'Gill Sans',
-        textAlign: 'center',
-        margin: 15,
-        color: '#ffffff',
-        backgroundColor: 'transparent',
+      fontSize: 18,
+      // fontFamily: 'Gill Sans',
+      letterSpacing: 2,
+      textAlign: 'center',
+      margin: 15,
+      color: '#ffffff',
+      backgroundColor: 'transparent',
     },
     container: {
         // flex: 1,
@@ -829,11 +829,11 @@ const styles = StyleSheet.create({
     // height: 24,
     },
     containerButtonSubmit: {
-        flex: 1,
-        // top: -75,
-        alignItems: 'center',
+      flex: 1,
+      alignItems: 'center',
       justifyContent: 'flex-start',
-        // justifyContent: 'flex-start',
+      marginTop:40,
+      marginBottom:40,
     },
     containerButtonCancel: {
     //   flex: 1,
